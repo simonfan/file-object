@@ -1,0 +1,106 @@
+{
+    "project": {
+        "name": "file-object",
+        "version": "0.0.0"
+    },
+    "files": {
+        "src/index.js": {
+            "name": "src/index.js",
+            "modules": {
+                "FileObject": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "FileObject": {
+            "name": "FileObject",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "src/index.js",
+            "line": 5,
+            "description": "CJS module."
+        }
+    },
+    "classes": {},
+    "classitems": [
+        {
+            "file": "src/index.js",
+            "line": 15,
+            "description": "Define proto properties.",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 27,
+            "description": "Default values to be passed to reading methods.",
+            "itemtype": "property",
+            "name": "readOptions",
+            "type": "Object",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 37,
+            "description": "Default values to be passed to writing methods.",
+            "itemtype": "property",
+            "name": "writeOptions",
+            "type": "Object",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 46,
+            "description": "Calls parse method, keeps reference to the parsed data\nand returns the parsed data.",
+            "itemtype": "method",
+            "name": "__afterRead__",
+            "access": "private",
+            "tagname": "",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 59,
+            "description": "Default parse method does nothing but return the read data.\nShould be overwritten.",
+            "itemtype": "method",
+            "name": "parse",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 69,
+            "description": "Default stringify method does nothing but return the data that was parsed.",
+            "itemtype": "method",
+            "name": "stringify",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 85,
+            "description": "Define static properties.",
+            "class": "",
+            "module": "FileObject"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nDefine proto properties.",
+            "line": " src/index.js:15"
+        },
+        {
+            "message": "Missing item type\nDefine static properties.",
+            "line": " src/index.js:85"
+        }
+    ]
+}
