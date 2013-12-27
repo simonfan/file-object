@@ -1,7 +1,7 @@
 {
   "name": "file-object",
   "main": "./src/index",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Object wrapper for file reading.",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
     "subject": "~0.3.2",
     "q-ify": "~0.1.0",
     "mapo": "0.0.0",
-    "minimatch": "~0.2.14"
+    "minimatch": "~0.2.14",
+    "walkdir": "0.0.7"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

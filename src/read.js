@@ -52,7 +52,7 @@ exports.parse = function parse(data) {
  * @private
  */
 exports.__afterRead__ = function __afterRead__(data) {
-	this.__data__ = this.parse(data);
+	this.parsedData = this.parse(data);
 
-	return this.__data__;
+	return this.parsedData;
 };

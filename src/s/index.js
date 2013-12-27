@@ -1,8 +1,11 @@
 'use strict';
 
+var path = require('path');
+
 var subject = require('subject'),
 	_ = require('lodash'),
-	minimatch = require('minimatch');
+	minimatch = require('minimatch'),
+	mapo = require('mapo');
 
 var file = require('../index');
 
@@ -29,7 +32,9 @@ var files = module.exports = subject(function files(first, second, third) {
 	} else if (arguments.length === 2 && _.isString(first)) {
 		base = first;
 		fpaths = second;
+		options = third;
 	} else if (arguments.length <= 2) {
+		base = '/';
 		fpaths = first;
 		options = second;
 	}
@@ -41,7 +46,11 @@ var files = module.exports = subject(function files(first, second, third) {
 	 * if fpaths is an Array, transform it into an object by using itself
 	 * as keys and values.
 	 */
-	this.fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
+	fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
+
+	this.fpaths = mapo(fpaths, function (fpath, fid) {
+		return path.join(base, fpath);
+	});
 
 	this.files = {};
 

@@ -167,6 +167,27 @@ file.proto(require(&#x27;./unlink&#x27;));
  */
 file.s = require(&#x27;./s&#x27;);
 
+
+
+/**
+ *
+ * Overwriting the basic extend method in order to replace the static
+ * &#x60;s&#x60; variable.
+ */
+
+// save reference to original Extend method
+var originalExtend = file.extend;
+
+file.extend = function extend() {
+	var extended = originalExtend.apply(this, arguments);
+
+	extended.s = this.s.extend({
+		singular: extended
+	});
+
+	return extended;
+};
+
     </pre>
 </div>
 

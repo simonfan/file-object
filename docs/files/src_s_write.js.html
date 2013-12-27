@@ -101,28 +101,37 @@ var _ = require(&#x27;lodash&#x27;),
  * @param [second] -options {Object}
  */
 exports.write = function write(first, second) {
-	if (arguments.length === 0) {
 
-		var files = this;
+	var _this = this;
 
-		var writes = _.map(this.files, function (file) {
-			return file.write();
-		});
+	var fidDefined = _.isString(first);
 
-		return Q.all(writes).then(function () {
-			return files;
-		});
+	var fid = fidDefined ? first : false,
+		options = fidDefined ? first : second,
 
-	} else {
+		// files to be written
+		files = fidDefined ? [this.file(fid)] : this.files;
 
-		// check if the first argument is String [fid] or Object [options]
-		if (_.isString(first)) {
+	// write deferred objects.
+	var writes = _.map(this.files, function (file) {
+		return file.write();
+	});
 
-		} else if (_.isObject(first)) {
+	return Q.all(writes).then(function () {
+		return _this;
+	});
+};
 
-		}
+/**
+ * Shorthand for file.s.prototype.data(Object).write(/* args )
+ */
+exports.writeData = function writeData(data) {
+	this.data(data);
 
-	}
+	var args = Array.prototype.slice.call(arguments);
+	args.unshift();
+
+	return this.write.apply(this, args);
 };
 
     </pre>

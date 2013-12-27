@@ -62,7 +62,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/s/index.js",
-            "line": 8,
+            "line": 11,
             "description": "CJS module."
         }
     },
@@ -77,9 +77,15 @@
             "extension_for": [],
             "module": "FileObject",
             "file": "src/s/index.js",
-            "line": 8,
+            "line": 11,
             "description": "Constructor for multiple file reader.",
             "params": [
+                {
+                    "name": "base",
+                    "description": "",
+                    "type": "String",
+                    "optional": true
+                },
                 {
                     "name": "fpaths",
                     "description": "\n    List of paths to the files to be read in this object.\n    {Object} -> keyed by file id (any String value), valued by file path\n    {Array} -> multiple file paths\n    -TO_IMPLEMENT- {String} -> minimatch pattern",
@@ -91,16 +97,28 @@
     "classitems": [
         {
             "file": "src/s/index.js",
-            "line": 21,
-            "description": "Build the file objects and keep reference to them in an object.",
+            "line": 43,
+            "description": "Some magic at this step:\nif fpaths is an Array, transform it into an object by using itself\nas keys and values.",
             "class": "files"
         },
         {
             "file": "src/s/index.js",
-            "line": 60,
-            "description": "The single file builder. Overwrite this for custom file object behaviour.",
-            "itemtype": "property",
-            "name": "/method",
+            "line": 65,
+            "description": "Define proto properties.",
+            "class": "files"
+        },
+        {
+            "file": "src/s/index.js",
+            "line": 84,
+            "description": "The singular file object builder.\nThis shall be extended in order to use the plural\nwith specific file definitions.",
+            "itemtype": "method",
+            "name": "singular",
+            "class": "files"
+        },
+        {
+            "file": "src/s/index.js",
+            "line": 93,
+            "description": "Check if the file is not already built",
             "class": "files"
         },
         {
@@ -128,6 +146,12 @@
                     "optional": true
                 }
             ],
+            "class": ""
+        },
+        {
+            "file": "src/s/write.js",
+            "line": 35,
+            "description": "Shorthand for file.s.prototype.data(Object).write(/* args )",
             "class": ""
         },
         {
@@ -167,6 +191,13 @@
             "file": "src/index.js",
             "line": 75,
             "description": "Define static properties.",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 82,
+            "description": "Overwriting the basic extend method in order to replace the static\n `s` variable.",
             "class": "",
             "module": "FileObject"
         },
@@ -244,12 +275,24 @@
     ],
     "warnings": [
         {
-            "message": "Missing item type\nBuild the file objects and keep reference to them in an object.",
-            "line": " src/s/index.js:21"
+            "message": "Missing item type\nSome magic at this step:\nif fpaths is an Array, transform it into an object by using itself\nas keys and values.",
+            "line": " src/s/index.js:43"
+        },
+        {
+            "message": "Missing item type\nDefine proto properties.",
+            "line": " src/s/index.js:65"
+        },
+        {
+            "message": "Missing item type\nCheck if the file is not already built",
+            "line": " src/s/index.js:93"
         },
         {
             "message": "Missing item type\nRead multiple files at once",
             "line": " src/s/read.js:7"
+        },
+        {
+            "message": "Missing item type\nShorthand for file.s.prototype.data(Object).write(/* args )",
+            "line": " src/s/write.js:35"
         },
         {
             "message": "Missing item type\nThe initializer.",
@@ -262,6 +305,10 @@
         {
             "message": "Missing item type\nDefine static properties.",
             "line": " src/index.js:75"
+        },
+        {
+            "message": "Missing item type\nOverwriting the basic extend method in order to replace the static\n `s` variable.",
+            "line": " src/index.js:82"
         },
         {
             "message": "Missing item type\nTO IMPLEMENT:",

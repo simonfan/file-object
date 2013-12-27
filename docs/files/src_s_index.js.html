@@ -90,8 +90,11 @@
     <pre class="code prettyprint linenums">
 &#x27;use strict&#x27;;
 
+var path = require(&#x27;path&#x27;);
+
 var subject = require(&#x27;subject&#x27;),
-	_ = require(&#x27;lodash&#x27;);
+	_ = require(&#x27;lodash&#x27;),
+	minimatch = require(&#x27;minimatch&#x27;);
 
 var file = require(&#x27;../index&#x27;);
 
@@ -99,37 +102,59 @@ var file = require(&#x27;../index&#x27;);
  * Constructor for multiple file reader.
  *
  * @class files
+ * @param [base] {String}
  * @param fpaths {Array|Object|-String-}
  *     List of paths to the files to be read in this object.
  *     {Object} -&gt; keyed by file id (any String value), valued by file path
  *     {Array} -&gt; multiple file paths
  *     -TO_IMPLEMENT- {String} -&gt; minimatch pattern
  */
-var files = module.exports = subject(function files(fpaths, options) {
-	this.fpaths = fpaths;
+var files = module.exports = subject(function files(first, second, third) {
+
+	// [1] parse arguments
+	var base, fpaths, options;
+
+	if (arguments.length === 3) {
+		base = first;
+		fpaths = second;
+		options = third;
+	} else if (arguments.length === 2 &amp;&amp; _.isString(first)) {
+		base = first;
+		fpaths = second;
+		options = third;
+	} else if (arguments.length &lt;= 2) {
+		base = &#x27;/&#x27;;
+		fpaths = first;
+		options = second;
+	}
+
+	// if fpaths is a string use minimatch -IMPLEMENT-
 
 	/**
-	 * Build the file objects and keep reference to them in an object.
+	 * Some magic at this step:
+	 * if fpaths is an Array, transform it into an object by using itself
+	 * as keys and values.
 	 */
+	this.fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
+
+	_.each(this.fpaths, function (fpath, fid) {
+		this.fpaths[fid] = path.join(base, fpath);
+	}.bind(this));
+
 	this.files = {};
 
-	if (_.isArray(fpaths)) {
+	_.each(this.fpaths, function (fpath, fid) {
 
-		fpaths.forEach(function (fpath) {
-			this.files[fpath] = this.file(fpath);
-		}.bind(this));
+		this.file(fid, fpath, options);
 
-	} else {
+	}.bind(this));
 
-		_.each(fpaths, function (fpath, fid) {
-			// build the file object using a prototype property,
-			// so that it is extendable.
-			this.files[fid] = this.file(fpath);
-		}.bind(this));
 
-	}
 });
 
+/**
+ * Define proto properties.
+ */
 files.proto({
 	data: function (fid, fdata) {
 
@@ -142,16 +167,35 @@ files.proto({
 		} else if (arguments.length === 2) {
 
 			// set the data of a single file.
-			this.file(fid).data(fdata);
+			this.files[fid].data(fdata);
+		}
+	},
+
+	/**
+	 * The singular file object builder.
+	 * This shall be extended in order to use the plural
+	 * with specific file definitions.
+	 *
+	 * @method singular
+	 */
+	singular: file,
+
+	/**
+	 * Check if the file is not already built
+	 */
+	file: function file(fid, fpath, foptions) {
+
+		if (arguments.length === 1) {
+			// read the file object
+			return this.files[fid];
+
+		} else if (arguments.length &gt;= 2) {
+			// create the file and return it
+			var f = this.files[fid] = this.singular(fpath, foptions);
+			return f;
 		}
 	}
 });
-
-/**
- * The single file builder. Overwrite this for custom file object behaviour.
- * @property/method
- */
-files.proto(&#x27;file&#x27;, file);
 
 files.proto(require(&#x27;./read&#x27;));
 

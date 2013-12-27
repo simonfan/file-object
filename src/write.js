@@ -25,7 +25,7 @@ exports.stringify = function stringify(data) {
 exports.write = function write(options) {
 		// keep reference to context to return it
 	var fileObj = this,
-		stringified = this.stringify(this.__data__);
+		stringified = this.stringify(this.data());
 
 	if (_.isUndefined(stringified) && this.options.whenUndefined === 'unlink') {
 		// unlink if the value is undefined.
@@ -40,7 +40,7 @@ exports.write = function write(options) {
 };
 
 exports.writeSync = function writeSync(options) {
-	var stringified = this.stringify(this.__data__);
+	var stringified = this.stringify(this.data());
 
 	if (_.isUndefined(stringified) && this.options.whenUndefined === 'unlink') {
 		this.unlinkSync();

@@ -33,6 +33,9 @@ exports.read = function read(fid) {
 	}
 };
 
+/**
+ *
+ */
 exports.readSync = function readSync(fid) {
 
 	if (arguments.length === 0) {
