@@ -75,6 +75,25 @@ file.proto(require('./unlink'));
 /**
  * Define static properties.
  */
-file.multiple = function multiple(fnames) {
+file.s = require('./s');
 
+
+
+/**
+ *
+ * Overwriting the basic extend method in order to replace the static
+ * `s` variable.
+ */
+
+// save reference to original Extend method
+var originalExtend = file.extend;
+
+file.extend = function extend() {
+	var extended = originalExtend.apply(this, arguments);
+
+	extended.s = this.s.extend({
+		singular: extended
+	});
+
+	return extended;
 };

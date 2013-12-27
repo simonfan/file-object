@@ -4,11 +4,48 @@
         "version": "0.0.0"
     },
     "files": {
+        "src/s/index.js": {
+            "name": "src/s/index.js",
+            "modules": {},
+            "classes": {
+                "files": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/s/read.js": {
+            "name": "src/s/read.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/s/write.js": {
+            "name": "src/s/write.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "src/index.js": {
             "name": "src/index.js",
             "modules": {
                 "FileObject": 1
             },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/read.js": {
+            "name": "src/read.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/write.js": {
+            "name": "src/write.js",
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -18,27 +55,124 @@
         "FileObject": {
             "name": "FileObject",
             "submodules": {},
-            "classes": {},
+            "classes": {
+                "files": 1
+            },
             "fors": {},
             "namespaces": {},
             "tag": "module",
-            "file": "src/index.js",
-            "line": 5,
+            "file": "src/s/index.js",
+            "line": 8,
             "description": "CJS module."
         }
     },
-    "classes": {},
+    "classes": {
+        "files": {
+            "name": "files",
+            "shortname": "files",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "FileObject",
+            "file": "src/s/index.js",
+            "line": 8,
+            "description": "Constructor for multiple file reader.",
+            "params": [
+                {
+                    "name": "fpaths",
+                    "description": "\n    List of paths to the files to be read in this object.\n    {Object} -> keyed by file id (any String value), valued by file path\n    {Array} -> multiple file paths\n    -TO_IMPLEMENT- {String} -> minimatch pattern",
+                    "type": "Array|Object|-String-"
+                }
+            ]
+        }
+    },
     "classitems": [
         {
+            "file": "src/s/index.js",
+            "line": 21,
+            "description": "Build the file objects and keep reference to them in an object.",
+            "class": "files"
+        },
+        {
+            "file": "src/s/index.js",
+            "line": 60,
+            "description": "The single file builder. Overwrite this for custom file object behaviour.",
+            "itemtype": "property",
+            "name": "/method",
+            "class": "files"
+        },
+        {
+            "file": "src/s/read.js",
+            "line": 7,
+            "description": "Read multiple files at once",
+            "class": ""
+        },
+        {
+            "file": "src/s/write.js",
+            "line": 6,
+            "itemtype": "method",
+            "name": "write",
+            "params": [
+                {
+                    "name": "first",
+                    "description": "- fid \n    - options {Object}",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "second",
+                    "description": "-options",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "class": ""
+        },
+        {
             "file": "src/index.js",
-            "line": 15,
+            "line": 16,
+            "description": "The initializer.",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 32,
             "description": "Define proto properties.",
             "class": "",
             "module": "FileObject"
         },
         {
             "file": "src/index.js",
-            "line": 27,
+            "line": 37,
+            "description": "Value to be set to newly created files.",
+            "itemtype": "property",
+            "name": "options.defaultValue",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 44,
+            "description": "Action to take when `data()` value is undefined.\n    'ignore'*: do nothing. If the file exists, let it exist, if not, do not create either.\n    'unlink': unlink the file.\n    'create': create an empty file (fs.write('')).",
+            "itemtype": "property",
+            "name": "options.whenUndefined",
+            "type": "String",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/index.js",
+            "line": 75,
+            "description": "Define static properties.",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/read.js",
+            "line": 10,
             "description": "Default values to be passed to reading methods.",
             "itemtype": "property",
             "name": "readOptions",
@@ -47,18 +181,17 @@
             "module": "FileObject"
         },
         {
-            "file": "src/index.js",
-            "line": 37,
-            "description": "Default values to be passed to writing methods.",
-            "itemtype": "property",
-            "name": "writeOptions",
-            "type": "Object",
+            "file": "src/read.js",
+            "line": 36,
+            "description": "Default parse method does nothing but return the read data.\nShould be overwritten.",
+            "itemtype": "method",
+            "name": "parse",
             "class": "",
             "module": "FileObject"
         },
         {
-            "file": "src/index.js",
-            "line": 46,
+            "file": "src/read.js",
+            "line": 47,
             "description": "Calls parse method, keeps reference to the parsed data\nand returns the parsed data.",
             "itemtype": "method",
             "name": "__afterRead__",
@@ -68,17 +201,18 @@
             "module": "FileObject"
         },
         {
-            "file": "src/index.js",
-            "line": 59,
-            "description": "Default parse method does nothing but return the read data.\nShould be overwritten.",
-            "itemtype": "method",
-            "name": "parse",
+            "file": "src/write.js",
+            "line": 10,
+            "description": "Default values to be passed to writing methods.",
+            "itemtype": "property",
+            "name": "writeOptions",
+            "type": "Object",
             "class": "",
             "module": "FileObject"
         },
         {
-            "file": "src/index.js",
-            "line": 69,
+            "file": "src/write.js",
+            "line": 17,
             "description": "Default stringify method does nothing but return the data that was parsed.",
             "itemtype": "method",
             "name": "stringify",
@@ -86,21 +220,52 @@
             "module": "FileObject"
         },
         {
-            "file": "src/index.js",
-            "line": 85,
-            "description": "Define static properties.",
+            "file": "src/write.js",
+            "line": 58,
+            "description": "TO IMPLEMENT:",
+            "class": "",
+            "module": "FileObject"
+        },
+        {
+            "file": "src/write.js",
+            "line": 62,
+            "itemtype": "method",
+            "name": "writeData",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "*whatever"
+                }
+            ],
             "class": "",
             "module": "FileObject"
         }
     ],
     "warnings": [
         {
+            "message": "Missing item type\nBuild the file objects and keep reference to them in an object.",
+            "line": " src/s/index.js:21"
+        },
+        {
+            "message": "Missing item type\nRead multiple files at once",
+            "line": " src/s/read.js:7"
+        },
+        {
+            "message": "Missing item type\nThe initializer.",
+            "line": " src/index.js:16"
+        },
+        {
             "message": "Missing item type\nDefine proto properties.",
-            "line": " src/index.js:15"
+            "line": " src/index.js:32"
         },
         {
             "message": "Missing item type\nDefine static properties.",
-            "line": " src/index.js:85"
+            "line": " src/index.js:75"
+        },
+        {
+            "message": "Missing item type\nTO IMPLEMENT:",
+            "line": " src/write.js:58"
         }
     ]
 }

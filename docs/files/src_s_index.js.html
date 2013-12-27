@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/index.js - file-object</title>
+    <title>src/s/index.js - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -84,88 +84,80 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/index.js</h1>
+                        <h1 class="file-heading">File: src/s/index.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//     FileObject
-//     (c) simonfan
-//     FileObject is licensed under the MIT terms.
-
-/**
- * CJS module.
- *
- * @module FileObject
- */
-
 &#x27;use strict&#x27;;
 
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;);
 
+var file = require(&#x27;../index&#x27;);
+
 /**
- * The initializer.
+ * Constructor for multiple file reader.
+ *
+ * @class files
+ * @param fpaths {Array|Object|-String-}
+ *     List of paths to the files to be read in this object.
+ *     {Object} -&gt; keyed by file id (any String value), valued by file path
+ *     {Array} -&gt; multiple file paths
+ *     -TO_IMPLEMENT- {String} -&gt; minimatch pattern
  */
-var file = module.exports = subject(function file(fpath, options) {
-	this.path = fpath;
+var files = module.exports = subject(function files(fpaths, options) {
+	this.fpaths = fpaths;
 
-	// options
-	options = options || {};
-	_.defaults(options, this.options);
+	/**
+	 * Build the file objects and keep reference to them in an object.
+	 */
+	this.files = {};
 
-	this.options = options;
+	if (_.isArray(fpaths)) {
 
-	// bind methods.
-	this.__afterRead__ = this.__afterRead__.bind(this);
+		fpaths.forEach(function (fpath) {
+			this.files[fpath] = this.file(fpath);
+		}.bind(this));
+
+	} else {
+
+		_.each(fpaths, function (fpath, fid) {
+			// build the file object using a prototype property,
+			// so that it is extendable.
+			this.files[fid] = this.file(fpath);
+		}.bind(this));
+
+	}
 });
 
-/**
- * Define proto properties.
- */
-file.proto({
-	options: {
-		/**
-		 * Value to be set to newly created files.
-		 *
-		 * @property options.defaultValue
-		 */
-		defaultValue: void(0),
+files.proto({
+	data: function (fid, fdata) {
 
-		/**
-		 * Action to take when &#x60;data()&#x60; value is undefined.
-		 *     &#x27;ignore&#x27;*: do nothing. If the file exists, let it exist, if not, do not create either.
-		 *     &#x27;unlink&#x27;: unlink the file.
-		 *     &#x27;create&#x27;: create an empty file (fs.write(&#x27;&#x27;)).
-		 *
-		 * @property options.whenUndefined {String}
-		 */
-		whenUndefined: &#x27;ignore&#x27;
-	},
+		if (arguments.length === 1) {
 
-	data: function data(d) {
+			_.each(fid, function (fdata, fid) {
+				this.data(fid, fdata);
+			}.bind(this));
 
-		if (arguments.length === 0) {
-			// return the data
-			return this.__data__;
-		} else {
-			// set data
-			this.__data__ = d;
-			return this;
+		} else if (arguments.length === 2) {
+
+			// set the data of a single file.
+			this.file(fid).data(fdata);
 		}
 	}
 });
 
-file.proto(require(&#x27;./read&#x27;));
-
-file.proto(require(&#x27;./write&#x27;));
-
-file.proto(require(&#x27;./unlink&#x27;));
-
-
 /**
- * Define static properties.
+ * The single file builder. Overwrite this for custom file object behaviour.
+ * @property/method
  */
-file.s = require(&#x27;./s&#x27;);
+files.proto(&#x27;file&#x27;, file);
+
+files.proto(require(&#x27;./read&#x27;));
+
+files.proto(require(&#x27;./write&#x27;));
+
+files.proto(require(&#x27;./unlink&#x27;));
 
     </pre>
 </div>

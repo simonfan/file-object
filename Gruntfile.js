@@ -58,7 +58,7 @@ module.exports = function (grunt) {
 
 		watch: {
 			live: {
-				files: ['src/*.js', 'test/*.js', 'demo/**', 'docs/**', 'Gruntfile.js'],
+				files: ['src/**/*.js', 'test/*.js', 'demo/**', 'docs/**', 'Gruntfile.js'],
 				tasks: ['jshint:gruntfile', 'jshint:src', 'simplemocha']
 			}
 		},

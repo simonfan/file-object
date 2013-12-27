@@ -50,3 +50,27 @@ exports.writeSync = function writeSync(options) {
 
 	return this;
 };
+
+
+
+
+
+/**
+ *
+ * TO IMPLEMENT:
+ */
+/**
+ *
+ * @method writeData
+ *
+ * @param data {*whatever}
+ */
+exports.writeData = function writeData(data, options) {
+
+	return this.data(data).write(options);
+
+};
+
+exports.writeDataSync = function writeDataSync(data, options) {
+	return this.data(data).writeSync(options);
+};
