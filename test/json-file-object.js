@@ -24,7 +24,7 @@ describe('jsonfile = file.extend(...)', function () {
 		var first = this.jsonfile(this.fpaths.first);
 
 		first.read().done(function (res) {
-			res.name.should.eql('first-file');
+			res.data().name.should.eql('first-file');
 
 			done();
 		});
@@ -45,10 +45,10 @@ describe('jsonfile = file.extend(...)', function () {
 			all.should.be.type('object');
 
 			all.read().done(function (res) {
-				res.first.name.should.eql('first-file');
-				res.first.value.should.eql('first value');
+				res.first.data().name.should.eql('first-file');
+				res.first.data().value.should.eql('first value');
 
-				res.third.name.should.eql('third-file');
+				res.third.data().name.should.eql('third-file');
 
 				done();
 			});
@@ -88,12 +88,12 @@ describe('jsonfile = file.extend(...)', function () {
 			var spjson = this.superJsonFile(path.join(__dirname, 'test-json-files/second.json'));
 
 			spjson.read()
-				.done(function (data) {
+				.done(function (fobj) {
 					// basic reading
-					data.value.should.eql('second value')
+					fobj.data().value.should.eql('second value')
 
 					// the fixed property that was added on parse.
-					data.fixedproperty.should.eql('fixedvalue')
+					fobj.data().fixedproperty.should.eql('fixedvalue')
 
 					done()
 				})

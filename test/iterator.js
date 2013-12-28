@@ -10,13 +10,6 @@ var file = require('../src/index');
 describe('file.s.prototype.iterator([operation] {String}, [iteratorOptions] {Object})', function () {
 
 	beforeEach(function () {
-
-		// path to the test files
-		this.fpaths = {
-			sometxt: path.join(__dirname, 'test-files/some.txt'),
-			somejson: path.join(__dirname, 'test-files/some.json'),
-		};
-
 		this.files = file.s(this.fpaths);
 	});
 
@@ -34,9 +27,9 @@ describe('file.s.prototype.iterator([operation] {String}, [iteratorOptions] {Obj
 
 					Q.isPromise(read).should.be.true;
 
-					read.done(function (data) {
+					read.done(function (fobj) {
 
-						(typeof data).should.eql('string');
+						(typeof fobj.data()).should.eql('string');
 
 						loop(it);
 

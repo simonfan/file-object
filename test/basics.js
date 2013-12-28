@@ -9,14 +9,6 @@ var should = require('should'),
 var file = require('../src/index');
 
 describe('file basics', function () {
-	beforeEach(function () {
-
-		// path to the test files
-		this.fpaths = {
-			sometxt: path.join(__dirname, 'test-files/some.txt'),
-			somejson: path.join(__dirname, 'test-files/some.json'),
-		};
-	});
 
 	it('can be instantiated without blowing up :)', function () {
 		var sometxt = file(this.fpaths.sometxt);
@@ -30,8 +22,8 @@ describe('file basics', function () {
 
 			var read = txt.read();
 
-			read.done(function (data) {
-				data.should.eql('some text data\n');
+			read.done(function (fobj) {
+				fobj.data().should.eql('some text data\n');
 				done();
 			});
 
@@ -41,7 +33,7 @@ describe('file basics', function () {
 		it('readSync should return the data', function () {
 			var txt = file(this.fpaths.sometxt);
 
-			txt.readSync().should.eql('some text data\n');
+			txt.readSync().data().should.eql('some text data\n');
 		});
 
 		it('should be capable of parsing data', function () {
@@ -49,7 +41,7 @@ describe('file basics', function () {
 				parse: JSON.parse
 			});
 
-			var json = jsonFile(this.fpaths.somejson).readSync().should.eql({
+			jsonFile(this.fpaths.somejson).readSync().data().should.eql({
 				name: 'something',
 				value: 'some value'
 			});

@@ -54,5 +54,18 @@ exports.parse = function parse(data) {
 exports.__afterRead__ = function __afterRead__(data) {
 	this.parsedData = this.parse(data);
 
-	return this.parsedData;
+	return this;
+};
+
+
+
+
+exports.readData = function readData(options) {
+	return this.read.apply(this, arguments).then(function (fobj) {
+		return fobj.data();
+	});
+};
+
+exports.readDataSync = function readDataSync(options) {
+	return this.readSync().data();
 };

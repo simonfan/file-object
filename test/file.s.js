@@ -5,7 +5,8 @@ var path = require('path'),
 
 var should = require('should'),
 	Q = require('q'),
-	_ = require('lodash');
+	_ = require('lodash'),
+	mapo = require('mapo');
 
 var file = require('../src/index');
 
@@ -53,9 +54,11 @@ describe('aggreg = file.s', function () {
 				Q.isPromise(readAggreg).should.be.true;
 
 				// [2] the promise is for the data within those files.
-				readAggreg.done(function (aggregData) {
+				readAggreg.done(function (aggreg) {
 
-					aggregData.should.eql(data);
+					mapo(aggreg, function (fileobj, fileid) {
+						return fileobj.data();
+					}).should.eql(data);
 
 					done();
 				});
@@ -68,7 +71,7 @@ describe('aggreg = file.s', function () {
 				Q.isPromise(read).should.be.true;
 
 				read.done(function (fdata) {
-					fdata.should.eql(data);
+					fdata.data().should.eql(data);
 
 					done();
 				});
@@ -159,8 +162,8 @@ describe('file.s(basepath, fpaths)', function () {
 
 		files.should.be.type('object');
 		files.read()
-			.then(function (data) {
-				data['some.txt'].should.eql('some text data\n');
+			.done(function (files) {
+				files['some.txt'].data().should.eql('some text data\n');
 
 				done();
 			});
