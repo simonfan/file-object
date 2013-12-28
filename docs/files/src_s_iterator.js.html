@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/write.js - file-object</title>
+    <title>src/s/iterator.js - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -84,85 +84,53 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/write.js</h1>
+                        <h1 class="file-heading">File: src/s/iterator.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 &#x27;use strict&#x27;;
 
-// third party
-var _ = require(&#x27;lodash&#x27;),
-	qify = require(&#x27;q-ify&#x27;);
-
-// qified
-var qfs = qify(&#x27;fs&#x27;, [&#x27;writeFile&#x27;]);
+var Q = require(&#x27;q&#x27;),
+	_ = require(&#x27;lodash&#x27;),
+	iterator = require(&#x27;iterator&#x27;);
 
 /**
- * Default values to be passed to writing methods.
+ * Return an iterator that will be capable of looping through files.
  *
- * @property writeOptions {Object}
+ * @method
  */
-exports.writeOptions = {};
+exports.iterator = function (first, second) {
 
-/**
- * Default stringify method does nothing but return the data that was parsed.
- * @method stringify
- */
-exports.stringify = function stringify(data) {
-	return data;
-};
+	var iteratorOptions;
 
-exports.write = function write(options) {
-		// keep reference to context to return it
-	var fileObj = this,
-		stringified = this.stringify(this.data());
+	if (arguments.length === 0) {
 
-	if (_.isUndefined(stringified) &amp;&amp; this.options.whenUndefined === &#x27;unlink&#x27;) {
-		// unlink if the value is undefined.
-		return this.unlink();
+		// nothing
 
-	} else {
-		// write normally.
-		return qfs.writeFile(this.path, stringified, options)
-				// resolve with this object.
-				.then(function () { return fileObj; });
-	}
-};
+	} else if (arguments.length === 1) {
 
-exports.writeSync = function writeSync(options) {
-	var stringified = this.stringify(this.data());
+		if (_.isString(first)) {
 
-	if (_.isUndefined(stringified) &amp;&amp; this.options.whenUndefined === &#x27;unlink&#x27;) {
-		this.unlinkSync();
-	} else {
-		qfs.writeFileSync(this.path, stringified, options);
+			iteratorOptions = {
+				evaluator: function (fileInstance) {
+					return fileInstance[first]();
+				},
+			};
+
+		} else if (_.isObject(first)) {
+			iteratorOptions = first;
+		}
+
+	} else if (arguments.length === 2) {
+
+		iteratorOptions = second || {};
+		iteratorOptions.evaluator = function (fileInstance) {
+			return fileInstance[first]();
+		};
+
 	}
 
-	return this;
-};
-
-
-
-
-
-/**
- *
- * TO IMPLEMENT:
- */
-/**
- *
- * @method writeData
- *
- * @param data {*whatever}
- */
-exports.writeData = function writeData(data, options) {
-
-	return this.data(data).write(options);
-
-};
-
-exports.writeDataSync = function writeDataSync(data, options) {
-	return this.data(data).writeSync(options);
+	return iterator(this.files, iteratorOptions);
 };
 
     </pre>

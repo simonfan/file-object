@@ -146,10 +146,10 @@ file.proto({
 
 		if (arguments.length === 0) {
 			// return the data
-			return this.__data__;
+			return this.parsedData;
 		} else {
 			// set data
-			this.__data__ = d;
+			this.parsedData = d;
 			return this;
 		}
 	}

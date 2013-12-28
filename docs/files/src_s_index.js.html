@@ -94,7 +94,8 @@ var path = require(&#x27;path&#x27;);
 
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;),
-	minimatch = require(&#x27;minimatch&#x27;);
+	minimatch = require(&#x27;minimatch&#x27;),
+	mapo = require(&#x27;mapo&#x27;);
 
 var file = require(&#x27;../index&#x27;);
 
@@ -135,11 +136,11 @@ var files = module.exports = subject(function files(first, second, third) {
 	 * if fpaths is an Array, transform it into an object by using itself
 	 * as keys and values.
 	 */
-	this.fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
+	fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
 
-	_.each(this.fpaths, function (fpath, fid) {
-		this.fpaths[fid] = path.join(base, fpath);
-	}.bind(this));
+	this.fpaths = mapo(fpaths, function (fpath, fid) {
+		return path.join(base, fpath);
+	});
 
 	this.files = {};
 
@@ -202,6 +203,8 @@ files.proto(require(&#x27;./read&#x27;));
 files.proto(require(&#x27;./write&#x27;));
 
 files.proto(require(&#x27;./unlink&#x27;));
+
+files.proto(require(&#x27;./iterator&#x27;));
 
     </pre>
 </div>

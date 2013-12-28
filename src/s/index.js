@@ -113,3 +113,5 @@ files.proto(require('./read'));
 files.proto(require('./write'));
 
 files.proto(require('./unlink'));
+
+files.proto(require('./iterator'));

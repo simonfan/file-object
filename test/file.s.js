@@ -151,3 +151,18 @@ describe('aggreg = file.s', function () {
 		});
 	});
 });
+
+
+describe('file.s(basepath, fpaths)', function () {
+	it('works', function (done) {
+		var files = file.s(path.join(__dirname, 'test-files'), ['some.json', 'some.txt']);
+
+		files.should.be.type('object');
+		files.read()
+			.then(function (data) {
+				data['some.txt'].should.eql('some text data\n');
+
+				done();
+			});
+	})
+})

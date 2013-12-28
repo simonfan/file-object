@@ -1,7 +1,7 @@
 {
   "name": "file-object",
   "main": "./src/index",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Object wrapper for file reading.",
   "repository": {
     "type": "git",
@@ -14,7 +14,8 @@
     "q-ify": "~0.1.0",
     "mapo": "0.0.0",
     "minimatch": "~0.2.14",
-    "walkdir": "0.0.7"
+    "walkdir": "0.0.7",
+    "iterator": "git://github.com/simonfan/iterator.git"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
