@@ -2,7 +2,7 @@
 
 var Q = require('q'),
 	_ = require('lodash'),
-	iterator = require('iterator');
+	iterator = require('itr');
 
 /**
  * Return an iterator that will be capable of looping through files.
