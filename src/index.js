@@ -17,7 +17,8 @@ var subject = require('subject'),
  * The initializer.
  */
 var file = module.exports = subject(function file(fpath, options) {
-	this.path = fpath;
+	this.path = this.parsePath(fpath);
+	this.id = this.parseId(fpath);
 
 	// options
 	options = options || {};
@@ -62,7 +63,15 @@ file.proto({
 			this.parsedData = d;
 			return this;
 		}
-	}
+	},
+
+	parsePath: function parsePath(p) {
+		return p;
+	},
+
+	parseId: function parseId(p) {
+		return p;
+	},
 });
 
 file.proto(require('./read'));

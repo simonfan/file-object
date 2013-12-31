@@ -107,7 +107,7 @@ var subject = require(&#x27;subject&#x27;),
  * The initializer.
  */
 var file = module.exports = subject(function file(fpath, options) {
-	this.path = fpath;
+	this.path = this.fpath(fpath);
 
 	// options
 	options = options || {};
