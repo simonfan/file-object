@@ -97,45 +97,44 @@ var Q = require(&#x27;q&#x27;),
 /**
  * Read multiple files at once
  */
-exports.read = function read(fid) {
+exports.read = function read() {
+	// read all files.
+	var fids = [],
+		readPromises = [];
 
-	if (arguments.length === 0) {
+	_.each(this.files, function (f, fid) {
 
-		// read all files.
+		fids.push(fid);
+		readPromises.push(f.read());
+	});
 
-		var fids = [],
-			readPromises = [];
-
-		_.each(this.files, function (f, fid) {
-
-			fids.push(fid);
-			readPromises.push(f.read());
-		});
-
-		return Q.all(readPromises).then(function (fdatas) {
-			return _.zipObject(fids, fdatas);
-		});
-
-	} else {
-
-		// read single file.
-		return this.files[fid].read();
-	}
+	return Q.all(readPromises).then(function (fdatas) {
+		return _.zipObject(fids, fdatas);
+	});
 };
 
 /**
  *
  */
-exports.readSync = function readSync(fid) {
+exports.readSync = function readSync() {
+	return mapo(this.files, function (file, fid) {
+		return file.readSync();
+	});
+};
 
-	if (arguments.length === 0) {
-		var res = mapo(this.files, function (file, fid) {
-			return file.readSync();
+exports.readData = function readData() {
+	this.read()
+		.then(function (files) {
+			return mapo(files, function (file, fid) {
+				return file.data();
+			});
 		});
+};
 
-	} else {
-		return this.files[fid].readSync();
-	}
+exports.readDataSync = function readDataSync() {
+	return mapo(this.readSync(), function (file, fid) {
+		return file.data();
+	});
 };
 
     </pre>

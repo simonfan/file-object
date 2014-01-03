@@ -140,7 +140,7 @@
         },
         {
             "file": "src/s/read.js",
-            "line": 36,
+            "line": 26,
             "class": ""
         },
         {
@@ -281,7 +281,7 @@
         },
         {
             "message": "Missing item type",
-            "line": " src/s/read.js:36"
+            "line": " src/s/read.js:26"
         },
         {
             "message": "Missing item type\nShorthand for file.s.prototype.data(Object).write(/* args )",
