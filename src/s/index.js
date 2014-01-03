@@ -1,6 +1,7 @@
 'use strict';
 
-var path = require('path');
+var path = require('path'),
+	fs = require('fs');
 
 var subject = require('subject'),
 	_ = require('lodash'),
@@ -16,50 +17,47 @@ var file = require('../index');
  * @param [base] {String}
  * @param fpaths {Array|Object|-String-}
  *     List of paths to the files to be read in this object.
- *     {Object} -> keyed by file id (any String value), valued by file path
  *     {Array} -> multiple file paths
  *     -TO_IMPLEMENT- {String} -> minimatch pattern
  */
-var files = module.exports = subject(function files(first, second, third) {
+var files = module.exports = subject(function files(first, second) {
 
-	// [1] parse arguments
-	var base, fpaths, options;
+	var base, fpaths;
 
-	if (arguments.length === 3) {
+	if (arguments.length === 1) {
+		base = _.isString(first) ? first : '/';
+		fpaths = _.isString(first) ? fs.readdirSync(base) : first;
+	} else {
 		base = first;
-		fpaths = second;
-		options = third;
-	} else if (arguments.length === 2 && _.isString(first)) {
-		base = first;
-		fpaths = second;
-		options = third;
-	} else if (arguments.length <= 2) {
-		base = '/';
-		fpaths = first;
-		options = second;
+		fpaths = second || fs.readdirSync(base);
 	}
 
-	// if fpaths is a string use minimatch -IMPLEMENT-
+	// default fpaths to the readdir of base
 
-	/**
-	 * Some magic at this step:
-	 * if fpaths is an Array, transform it into an object by using itself
-	 * as keys and values.
-	 */
-	fpaths = _.isArray(fpaths) ? _.zipObject(fpaths, fpaths) : fpaths;
+	// base path for the files
+	this.base = base;
 
-	this.fpaths = mapo(fpaths, function (fpath, fid) {
-		return path.join(base, fpath);
-	});
-
+	// object to hold files in cache.
 	this.files = {};
 
-	_.each(this.fpaths, function (fpath, fid) {
+	if (_.isArray(fpaths)) {
 
-		this.file(fid, fpath, options);
+		// fpaths is an array: values are paths
+		_.each(fpaths, function (fpath) {
+			this.file(fpath);
+		}.bind(this));
 
-	}.bind(this));
+	} else if (_.isObject(fpaths)) {
 
+		// fpaths is an object: keys are paths, values are data values.
+		_.each(fpaths, function (data, fpath) {
+			this.file(fpath).data(data);
+		}.bind(this));
+
+	} else if (_.isString(fpaths)) {
+		// if fpaths is a string use minimatch -IMPLEMENT-
+
+	}
 
 });
 
@@ -78,7 +76,7 @@ files.proto({
 		} else if (arguments.length === 2) {
 
 			// set the data of a single file.
-			this.files[fid].data(fdata);
+			this.file(fid).data(fdata);
 		}
 	},
 
@@ -92,19 +90,27 @@ files.proto({
 	singular: file,
 
 	/**
-	 * Check if the file is not already built
+	 * Either gets or creates the file object.
+	 *
+	 * @method file
 	 */
-	file: function file(fid, fpath, foptions) {
+	file: function (fpath) {
 
-		if (arguments.length === 1) {
-			// read the file object
-			return this.files[fid];
+		// get the full filepath
+		var fullfpath = path.join(this.base, fpath);
 
-		} else if (arguments.length >= 2) {
-			// create the file and return it
-			var f = this.files[fid] = this.singular(fpath, foptions);
-			return f;
+		console.log(fpath);
+
+		// check if the file object exists
+		var file = this.files[fpath];
+
+		// if no file exists, build one.
+		if (!file) {
+			file = this.files[fpath] = this.singular(fullfpath);
 		}
+
+		// finally return the file object.
+		return file;
 	}
 });
 

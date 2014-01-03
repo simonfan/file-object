@@ -16,5 +16,5 @@ beforeEach(function () {
 
 
 afterEach(function () {
-	console.log('STOP')
+	//console.log('STOP')
 });

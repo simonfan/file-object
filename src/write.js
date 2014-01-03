@@ -27,26 +27,15 @@ exports.write = function write(options) {
 	var fileObj = this,
 		stringified = this.stringify(this.data());
 
-	if (_.isUndefined(stringified) && this.options.whenUndefined === 'unlink') {
-		// unlink if the value is undefined.
-		return this.unlink();
-
-	} else {
-		// write normally.
-		return qfs.writeFile(this.path, stringified, options)
-				// resolve with this object.
-				.then(function () { return fileObj; });
-	}
+	return qfs.writeFile(this.path, stringified, options)
+			// resolve with this object.
+			.then(function () { return fileObj; });
 };
 
 exports.writeSync = function writeSync(options) {
 	var stringified = this.stringify(this.data());
 
-	if (_.isUndefined(stringified) && this.options.whenUndefined === 'unlink') {
-		this.unlinkSync();
-	} else {
-		qfs.writeFileSync(this.path, stringified, options);
-	}
+	qfs.writeFileSync(this.path, stringified, options);
 
 	return this;
 };

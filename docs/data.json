@@ -69,7 +69,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/s/index.js",
-            "line": 12,
+            "line": 13,
             "description": "CJS module."
         }
     },
@@ -84,7 +84,7 @@
             "extension_for": [],
             "module": "FileObject",
             "file": "src/s/index.js",
-            "line": 12,
+            "line": 13,
             "description": "Constructor for multiple file reader.",
             "params": [
                 {
@@ -95,7 +95,7 @@
                 },
                 {
                     "name": "fpaths",
-                    "description": "\n    List of paths to the files to be read in this object.\n    {Object} -> keyed by file id (any String value), valued by file path\n    {Array} -> multiple file paths\n    -TO_IMPLEMENT- {String} -> minimatch pattern",
+                    "description": "\n    List of paths to the files to be read in this object.\n    {Array} -> multiple file paths\n    -TO_IMPLEMENT- {String} -> minimatch pattern",
                     "type": "Array|Object|-String-"
                 }
             ]
@@ -104,19 +104,13 @@
     "classitems": [
         {
             "file": "src/s/index.js",
-            "line": 44,
-            "description": "Some magic at this step:\nif fpaths is an Array, transform it into an object by using itself\nas keys and values.",
-            "class": "files"
-        },
-        {
-            "file": "src/s/index.js",
-            "line": 66,
+            "line": 64,
             "description": "Define proto properties.",
             "class": "files"
         },
         {
             "file": "src/s/index.js",
-            "line": 85,
+            "line": 83,
             "description": "The singular file object builder.\nThis shall be extended in order to use the plural\nwith specific file definitions.",
             "itemtype": "method",
             "name": "singular",
@@ -124,8 +118,10 @@
         },
         {
             "file": "src/s/index.js",
-            "line": 94,
-            "description": "Check if the file is not already built",
+            "line": 92,
+            "description": "Either gets or creates the file object.",
+            "itemtype": "method",
+            "name": "file",
             "class": "files"
         },
         {
@@ -176,34 +172,15 @@
         },
         {
             "file": "src/index.js",
-            "line": 16,
+            "line": 18,
             "description": "The initializer.",
             "class": "",
             "module": "FileObject"
         },
         {
             "file": "src/index.js",
-            "line": 32,
+            "line": 34,
             "description": "Define proto properties.",
-            "class": "",
-            "module": "FileObject"
-        },
-        {
-            "file": "src/index.js",
-            "line": 37,
-            "description": "Value to be set to newly created files.",
-            "itemtype": "property",
-            "name": "options.defaultValue",
-            "class": "",
-            "module": "FileObject"
-        },
-        {
-            "file": "src/index.js",
-            "line": 44,
-            "description": "Action to take when `data()` value is undefined.\n    'ignore'*: do nothing. If the file exists, let it exist, if not, do not create either.\n    'unlink': unlink the file.\n    'create': create an empty file (fs.write('')).",
-            "itemtype": "property",
-            "name": "options.whenUndefined",
-            "type": "String",
             "class": "",
             "module": "FileObject"
         },
@@ -272,14 +249,14 @@
         },
         {
             "file": "src/write.js",
-            "line": 58,
+            "line": 47,
             "description": "TO IMPLEMENT:",
             "class": "",
             "module": "FileObject"
         },
         {
             "file": "src/write.js",
-            "line": 62,
+            "line": 51,
             "itemtype": "method",
             "name": "writeData",
             "params": [
@@ -295,16 +272,8 @@
     ],
     "warnings": [
         {
-            "message": "Missing item type\nSome magic at this step:\nif fpaths is an Array, transform it into an object by using itself\nas keys and values.",
-            "line": " src/s/index.js:44"
-        },
-        {
             "message": "Missing item type\nDefine proto properties.",
-            "line": " src/s/index.js:66"
-        },
-        {
-            "message": "Missing item type\nCheck if the file is not already built",
-            "line": " src/s/index.js:94"
+            "line": " src/s/index.js:64"
         },
         {
             "message": "Missing item type\nRead multiple files at once",
@@ -320,11 +289,11 @@
         },
         {
             "message": "Missing item type\nThe initializer.",
-            "line": " src/index.js:16"
+            "line": " src/index.js:18"
         },
         {
             "message": "Missing item type\nDefine proto properties.",
-            "line": " src/index.js:32"
+            "line": " src/index.js:34"
         },
         {
             "message": "Missing item type\nDefine static properties.",
@@ -336,7 +305,7 @@
         },
         {
             "message": "Missing item type\nTO IMPLEMENT:",
-            "line": " src/write.js:58"
+            "line": " src/write.js:47"
         }
     ]
 }

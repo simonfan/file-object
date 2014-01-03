@@ -13,15 +13,15 @@ describe('jsonfile = file.extend(...)', function () {
 			stringify: JSON.stringify
 		});
 
-		this.fpaths = {
-			first: path.join(__dirname, 'test-json-files/first.json'),
-			second: path.join(__dirname, 'test-json-files/second.json'),
-			third: path.join(__dirname, 'test-json-files/third.json')
-		};
+		this.fpaths = [
+			path.join(__dirname, 'test-json-files/first.json'),
+			path.join(__dirname, 'test-json-files/second.json'),
+			path.join(__dirname, 'test-json-files/third.json')
+		];
 	});
 
 	it('correctly parses json files', function (done) {
-		var first = this.jsonfile(this.fpaths.first);
+		var first = this.jsonfile(this.fpaths[0]);
 
 		first.read().done(function (res) {
 			res.data().name.should.eql('first-file');
@@ -44,11 +44,14 @@ describe('jsonfile = file.extend(...)', function () {
 
 			all.should.be.type('object');
 
-			all.read().done(function (res) {
-				res.first.data().name.should.eql('first-file');
-				res.first.data().value.should.eql('first value');
+			var fpaths = this.fpaths;
 
-				res.third.data().name.should.eql('third-file');
+			all.read().done(function (res) {
+
+				res[fpaths[0]].data().name.should.eql('first-file');
+				res[fpaths[0]].data().value.should.eql('first value');
+
+				res[fpaths[2]].data().name.should.eql('third-file');
 
 				done();
 			});

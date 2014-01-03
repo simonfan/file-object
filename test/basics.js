@@ -16,6 +16,18 @@ describe('file basics', function () {
 		sometxt.should.be.type('object');
 	});
 
+	it('parses path and id for each file based on the first argument', function () {
+		var extendedFile = file.extend({
+				extension: '.someextension'
+			}),
+			somefile = extendedFile('lalala.someextension');
+
+		somefile.extension.should.eql('.someextension');
+		somefile.path.should.eql('lalala.someextension');
+		somefile.basename.should.eql('lalala');
+
+	})
+
 	describe('read(options {Object}), readSync(options {Object})', function () {
 		it('read should return a promise for the data', function (done) {
 			var txt = file(this.fpaths.sometxt);

@@ -14,21 +14,22 @@ describe('aggreg = file.s', function () {
 	beforeEach(function () {
 
 		// path to the test files
-		this.fpaths = {
-			sometxt: path.join(__dirname, 'test-files/some.txt'),
-			somejson: path.join(__dirname, 'test-files/some.json'),
-		};
+		this.fpaths = [
+			'test-files/some.txt',
+			'test-files/some.json',
+		];
 	});
 
 	it('is an object', function () {
-		var f = file.s(this.fpaths);
+
+		// file.s(basepath, fpaths);
+		var f = file.s(__dirname, this.fpaths);
 
 		f.should.be.type('object');
-		f.fpaths.should.be.type('object');
 	});
 
 	it('has a `files` property', function () {
-		var f = file.s(this.fpaths);
+		var f = file.s(__dirname, this.fpaths);
 
 		f.files.should.be.type('object');
 	});
@@ -36,7 +37,7 @@ describe('aggreg = file.s', function () {
 	describe('aggreg methods', function () {
 
 		beforeEach(function () {
-			this.aggreg = file.s(this.fpaths);
+			this.aggreg = file.s(__dirname, this.fpaths);
 		});
 
 		describe('aggreg.read([fid])', function () {
@@ -46,8 +47,8 @@ describe('aggreg = file.s', function () {
 					// [3] read the files using normal methods
 					data = {};
 
-				_.each(this.fpaths, function(fpath, fid) {
-					data[fid] = fs.readFileSync(fpath, { encoding: 'utf-8' });
+				_.each(this.fpaths, function(fpath) {
+					data[fpath] = fs.readFileSync(path.join(__dirname, fpath), { encoding: 'utf-8' });
 				});
 
 				// [1] it is a promsie
@@ -63,20 +64,6 @@ describe('aggreg = file.s', function () {
 					done();
 				});
 			});
-
-			it('arguments.length === 1: returns a promise for the single file specified as first parameter', function (done) {
-				var read = this.aggreg.read('somejson'),
-					data = fs.readFileSync(this.fpaths.somejson, { encoding: 'utf-8' });
-
-				Q.isPromise(read).should.be.true;
-
-				read.done(function (fdata) {
-					fdata.data().should.eql(data);
-
-					done();
-				});
-			});
-
 		});
 
 		describe('aggreg.data(Object)', function () {
@@ -96,13 +83,16 @@ describe('aggreg = file.s', function () {
 		describe('aggreg.write([fid], [options])', function () {
 
 			beforeEach(function () {
-				this.writeTestFiles = _.map(['write.test', 'write.json'], function (fname) {
-					return path.join(__dirname, 'test-files/' + fname);
-				});
+				this.writeTestFiles = [
+					'test-files/write.test',
+					'test-files/write.json'
+				];
 			});
 
 			afterEach(function() {
 				_.each(this.writeTestFiles , function (fpath) {
+
+					fpath = path.join(__dirname, fpath);
 
 					try {
 						fs.readFileSync(fpath);
@@ -115,7 +105,7 @@ describe('aggreg = file.s', function () {
 
 			it('returns a promise for the file.s object itself', function (done) {
 
-				var files = file.s(this.writeTestFiles),
+				var files = file.s(__dirname, this.writeTestFiles),
 					write = files.write();
 
 				Q.isPromise(write).should.be.true;
@@ -130,17 +120,19 @@ describe('aggreg = file.s', function () {
 
 		describe('aggreg.unlink([fid])', function () {
 			beforeEach(function () {
-				this.unlinkTestFiles = _.map(['unlink.json', 'unlink.txt', 'unlink'], function (fname) {
-					return path.join(__dirname, 'test-files/' + fname);
-				});
+				this.unlinkTestFiles = [
+					'test-files/unlink.json',
+					'test-files/unlink.txt',
+					'test-files/unlink'
+				];
 
 				_.each(this.unlinkTestFiles, function (fpath) {
-					fs.writeFileSync(fpath, 'lalala');
+					fs.writeFileSync(path.join(__dirname, fpath), 'lalala');
 				});
 			});
 
 			it('unlinks all files', function (done) {
-				var files = file.s(this.unlinkTestFiles),
+				var files = file.s(__dirname, this.unlinkTestFiles),
 					unlink = files.unlink();
 
 				Q.isPromise(unlink).should.be.true;

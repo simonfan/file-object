@@ -10,21 +10,22 @@
 
 'use strict';
 
+var path = require('path');
+
 var subject = require('subject'),
 	_ = require('lodash');
 
 /**
  * The initializer.
  */
-var file = module.exports = subject(function file(fpath, options) {
+var file = module.exports = subject(function file(fpath, data) {
+
+	if (arguments.length === 2) {
+		this.data(data);
+	}
+
 	this.path = this.parsePath(fpath);
-	this.id = this.parseId(fpath);
-
-	// options
-	options = options || {};
-	_.defaults(options, this.options);
-
-	this.options = options;
+	this.basename = this.parseBasename(fpath);
 
 	// bind methods.
 	this.__afterRead__ = this.__afterRead__.bind(this);
@@ -34,24 +35,6 @@ var file = module.exports = subject(function file(fpath, options) {
  * Define proto properties.
  */
 file.proto({
-	options: {
-		/**
-		 * Value to be set to newly created files.
-		 *
-		 * @property options.defaultValue
-		 */
-		defaultValue: void(0),
-
-		/**
-		 * Action to take when `data()` value is undefined.
-		 *     'ignore'*: do nothing. If the file exists, let it exist, if not, do not create either.
-		 *     'unlink': unlink the file.
-		 *     'create': create an empty file (fs.write('')).
-		 *
-		 * @property options.whenUndefined {String}
-		 */
-		whenUndefined: 'ignore'
-	},
 
 	data: function data(d) {
 
@@ -65,12 +48,20 @@ file.proto({
 		}
 	},
 
+	extension: false,
+
 	parsePath: function parsePath(p) {
-		return p;
+		if (this.extension) {
+			var extensionRegExp = new RegExp('\\' + this.extension + '$');
+
+			return extensionRegExp.test(p) ? p : p + this.extension;
+		} else {
+			return p;
+		}
 	},
 
-	parseId: function parseId(p) {
-		return p;
+	parseBasename: function parseBasename(p) {
+		return path.basename(this.parsePath(p), this.extension);
 	},
 });
 

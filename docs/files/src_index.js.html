@@ -100,20 +100,22 @@
 
 &#x27;use strict&#x27;;
 
+var path = require(&#x27;path&#x27;);
+
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;);
 
 /**
  * The initializer.
  */
-var file = module.exports = subject(function file(fpath, options) {
-	this.path = this.fpath(fpath);
+var file = module.exports = subject(function file(fpath, data) {
 
-	// options
-	options = options || {};
-	_.defaults(options, this.options);
+	if (arguments.length === 2) {
+		this.data(data);
+	}
 
-	this.options = options;
+	this.path = this.parsePath(fpath);
+	this.basename = this.parseBasename(fpath);
 
 	// bind methods.
 	this.__afterRead__ = this.__afterRead__.bind(this);
@@ -123,24 +125,6 @@ var file = module.exports = subject(function file(fpath, options) {
  * Define proto properties.
  */
 file.proto({
-	options: {
-		/**
-		 * Value to be set to newly created files.
-		 *
-		 * @property options.defaultValue
-		 */
-		defaultValue: void(0),
-
-		/**
-		 * Action to take when &#x60;data()&#x60; value is undefined.
-		 *     &#x27;ignore&#x27;*: do nothing. If the file exists, let it exist, if not, do not create either.
-		 *     &#x27;unlink&#x27;: unlink the file.
-		 *     &#x27;create&#x27;: create an empty file (fs.write(&#x27;&#x27;)).
-		 *
-		 * @property options.whenUndefined {String}
-		 */
-		whenUndefined: &#x27;ignore&#x27;
-	},
 
 	data: function data(d) {
 
@@ -152,7 +136,23 @@ file.proto({
 			this.parsedData = d;
 			return this;
 		}
-	}
+	},
+
+	extension: false,
+
+	parsePath: function parsePath(p) {
+		if (this.extension) {
+			var extensionRegExp = new RegExp(&#x27;\\&#x27; + this.extension + &#x27;$&#x27;);
+
+			return extensionRegExp.test(p) ? p : p + this.extension;
+		} else {
+			return p;
+		}
+	},
+
+	parseBasename: function parseBasename(p) {
+		return path.basename(this.parsePath(p), this.extension);
+	},
 });
 
 file.proto(require(&#x27;./read&#x27;));
