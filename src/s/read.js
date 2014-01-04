@@ -33,7 +33,7 @@ exports.readSync = function readSync() {
 };
 
 exports.readData = function readData() {
-	this.read()
+	return this.read()
 		.then(function (files) {
 			return mapo(files, function (file, fid) {
 				return file.data();
