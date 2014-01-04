@@ -34,6 +34,14 @@ describe('aggreg = file.s', function () {
 		f.files.should.be.type('object');
 	});
 
+	it('supports minimatch patterns to get fpaths', function () {
+		var f = file.s(__dirname, 'test-files/*.json');
+
+		f.files.should.be.type('object');
+
+		_.keys(f.files).length.should.eql(1);
+	});
+
 	describe('aggreg methods', function () {
 
 		beforeEach(function () {

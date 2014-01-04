@@ -6,7 +6,8 @@ var path = require('path'),
 var subject = require('subject'),
 	_ = require('lodash'),
 	minimatch = require('minimatch'),
-	mapo = require('mapo');
+	mapo = require('mapo'),
+	walk = require('walkdir');
 
 var file = require('../index');
 
@@ -43,9 +44,7 @@ var files = module.exports = subject(function files(first, second) {
 	if (_.isArray(fpaths)) {
 
 		// fpaths is an array: values are paths
-		_.each(fpaths, function (fpath) {
-			this.file(fpath);
-		}.bind(this));
+		_.each(fpaths, this.file.bind(this));
 
 	} else if (_.isObject(fpaths)) {
 
@@ -55,8 +54,17 @@ var files = module.exports = subject(function files(first, second) {
 		}.bind(this));
 
 	} else if (_.isString(fpaths)) {
-		// if fpaths is a string use minimatch -IMPLEMENT-
+		// if fpaths is a string use minimatch
+			// get paths available.
+		var availablePaths = walk.sync(this.base),
+			// build a minimatch pattern using the base.
+			pattern = path.join(this.base, fpaths);
 
+		// get paths that match the pattern
+		fpaths = minimatch.match(availablePaths, pattern, { matchBase: true });
+
+		//
+		_.each(fpaths, this.file.bind(this));
 	}
 
 });
