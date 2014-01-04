@@ -56,12 +56,12 @@ var files = module.exports = subject(function files(first, second) {
 	} else if (_.isString(fpaths)) {
 		// if fpaths is a string use minimatch
 			// get paths available.
-		var availablePaths = walk.sync(this.base),
-			// build a minimatch pattern using the base.
-			pattern = path.join(this.base, fpaths);
+		var availablePaths = walk.sync(this.base).map(function (p) {
+				return path.relative(this.base, p);
+			}.bind(this));
 
 		// get paths that match the pattern
-		fpaths = minimatch.match(availablePaths, pattern, { matchBase: true });
+		fpaths = minimatch.match(availablePaths, fpaths, { matchBase: true });
 
 		//
 		_.each(fpaths, this.file.bind(this));
