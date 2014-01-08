@@ -52,6 +52,9 @@ exports.parse = function parse(data) {
  * @private
  */
 exports.__afterRead__ = function __afterRead__(data) {
+	// save raw data
+	this.raw = data;
+
 	this.parsedData = this.parse(data);
 
 	return this;

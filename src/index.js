@@ -24,6 +24,8 @@ var file = module.exports = subject(function file(fpath, data) {
 		this.data(data);
 	}
 
+	this.raw;
+
 	this.path = this.parsePath(fpath);
 	this.basename = this.parseBasename(fpath);
 
