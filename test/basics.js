@@ -127,8 +127,6 @@ describe('file basics', function () {
 				data.should.eql(JSON.stringify(json.data()));
 			});
 		});
-
-		it('both should unlink the file when the option `unlinkUndefined` is set to true');
 	});
 
 	describe('unlink(), unlinkSync()', function () {
