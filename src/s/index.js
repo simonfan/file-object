@@ -107,8 +107,6 @@ files.proto({
 		// get the full filepath
 		var fullfpath = path.join(this.base, fpath);
 
-		console.log(fpath);
-
 		// check if the file object exists
 		var file = this.files[fpath];
 
