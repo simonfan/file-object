@@ -42,6 +42,13 @@ describe('file basics', function () {
 			Q.isPromise(read).should.be.true;
 		});
 
+		it('keeps the string contents of the file in a raw property', function () {
+			var txt = file(this.fpaths.somejson);
+
+			txt.readSync()
+				.raw.should.eql(txt.data());
+		});
+
 		it('readSync should return the data', function () {
 			var txt = file(this.fpaths.sometxt);
 

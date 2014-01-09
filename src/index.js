@@ -44,7 +44,10 @@ file.proto({
 			// return the data
 			return this.parsedData;
 		} else {
-			// set data
+			// set raw data
+			this.raw = this.stringify(d);
+
+			// set parsed data
 			this.parsedData = d;
 			return this;
 		}
