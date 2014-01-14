@@ -13,7 +13,7 @@ var qfs = qify('fs', ['readFile']);
  * @property readOptions {Object}
  */
 exports.readOptions = {
-	encoding: 'utf-8',
+	encoding: 'utf8',
 	flag: 'r'
 };
 
