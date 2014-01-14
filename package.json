@@ -12,10 +12,10 @@
     "lodash": "~2.4.1",
     "subject": "~0.3.2",
     "q-ify": "~0.1.0",
-    "mapo": "0.0.0",
     "minimatch": "~0.2.14",
     "walkdir": "0.0.7",
-    "itr": "~0.1.4"
+    "itr": "~0.1.4",
+    "mapo": "0.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.2",

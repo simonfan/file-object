@@ -6,7 +6,6 @@ var path = require('path'),
 var subject = require('subject'),
 	_ = require('lodash'),
 	minimatch = require('minimatch'),
-	mapo = require('mapo'),
 	walk = require('walkdir');
 
 var file = require('../index');
