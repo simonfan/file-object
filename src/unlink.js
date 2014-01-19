@@ -1,3 +1,10 @@
+/**
+ * Functionality related to file unlinking.
+ *
+ * @module file-object
+ * @submodule unlink
+ */
+
 'use strict';
 
 // third party
@@ -7,7 +14,12 @@ var _ = require('lodash'),
 // qified
 var qfs = qify('fs', ['unlink']);
 
-exports.unlink = function unlink(argument) {
+/**
+ * Unlinks the file. Asynch
+ *
+ * @method unlink
+ */
+exports.unlink = function unlink() {
 	var fileObj = this;
 
 	return qfs.unlink(this.path)

@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * Functionality related to file reading.
+ *
+ * @module file-object
+ * @submodule read
+ */
+
 // third party
 var _ = require('lodash'),
 	qify = require('q-ify');
@@ -32,18 +39,6 @@ exports.readSync = function readSync(options) {
 	return this.__afterRead__(qfs.readFileSync(this.path, options));
 };
 
-
-/**
- * Default parse method does nothing but return the read data.
- * Should be overwritten.
- *
- * @method parse
- */
-exports.parse = function parse(data) {
-	return data;
-};
-
-
 /**
  * Calls parse method, keeps reference to the parsed data
  * and returns the parsed data.
@@ -52,17 +47,19 @@ exports.parse = function parse(data) {
  * @private
  */
 exports.__afterRead__ = function __afterRead__(data) {
-	// save raw data
-	this.raw = data;
-
-	this.parsedData = this.parse(data);
+	this._data = this.parse(data);
 
 	return this;
 };
 
 
 
-
+/**
+ * Shorthand for calling read and then requesting the file data.
+ *
+ * @method readData
+ * @param options {Object}
+ */
 exports.readData = function readData(options) {
 	return this.read.apply(this, arguments).then(function (fobj) {
 		return fobj.data();

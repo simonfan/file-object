@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/s/iterator.js - file-object</title>
+    <title>src/path.js - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -94,53 +94,52 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/s/iterator.js</h1>
+                        <h1 class="file-heading">File: src/path.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/**
+ * Functionality related to path parsing.
+ *
+ * @module file-object
+ * @submodule path
+ */
+
 &#x27;use strict&#x27;;
 
-var Q = require(&#x27;q&#x27;),
-	_ = require(&#x27;lodash&#x27;),
-	iterator = require(&#x27;itr&#x27;);
+var path = require(&#x27;path&#x27;);
 
 /**
- * Return an iterator that will be capable of looping through files.
+ * The file extension.
+ * e.g. &#x27;.js&#x27;, &#x27;.json&#x27;
+ * Used to find the file without needing the extension.
  *
- * @method
+ * @property extension {String}
  */
-exports.iterator = function (first, second) {
+exports.extension = void(0);
 
-	var iteratorOptions;
+/**
+ * Takes a path and, if required, adds the extension to it.
+ *
+ * @method parsePath
+ */
+exports.parsePath = function parsePath(p) {
+	if (this.extension) {
+		var extensionRegExp = new RegExp(&#x27;\\&#x27; + this.extension + &#x27;$&#x27;);
 
-	if (arguments.length === 0) {
-
-		// nothing
-
-	} else if (arguments.length === 1) {
-
-		if (_.isString(first)) {
-
-			iteratorOptions = {
-				evaluator: function (fileInstance) {
-					return fileInstance[first]();
-				},
-			};
-
-		} else if (_.isObject(first)) {
-			iteratorOptions = first;
-		}
-
-	} else if (arguments.length === 2) {
-
-		iteratorOptions = second || {};
-		iteratorOptions.evaluator = function (fileInstance) {
-			return fileInstance[first]();
-		};
-
+		return extensionRegExp.test(p) ? p : p + this.extension;
+	} else {
+		return p;
 	}
+};
 
-	return iterator(this.files, iteratorOptions);
+/**
+ * Takes a path and retrieves the basename of the file.
+ *
+ * @method parseBasename
+ */
+exports.parseBasename = function parseBasename(p) {
+	return path.basename(this.parsePath(p), this.extension);
 };
 
     </pre>

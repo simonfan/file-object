@@ -47,7 +47,17 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/FileObject.html">FileObject</a></li>
+                <li><a href="../modules/data.html">data</a></li>
+            
+                <li><a href="../modules/file-object.html">file-object</a></li>
+            
+                <li><a href="../modules/path.html">path</a></li>
+            
+                <li><a href="../modules/read.html">read</a></li>
+            
+                <li><a href="../modules/unlink.html">unlink</a></li>
+            
+                <li><a href="../modules/write.html">write</a></li>
             
             </ul>
         </div>
@@ -90,6 +100,13 @@
     <pre class="code prettyprint linenums">
 &#x27;use strict&#x27;;
 
+/**
+ * Functionality related to file reading.
+ *
+ * @module file-object
+ * @submodule read
+ */
+
 // third party
 var _ = require(&#x27;lodash&#x27;),
 	qify = require(&#x27;q-ify&#x27;);
@@ -122,18 +139,6 @@ exports.readSync = function readSync(options) {
 	return this.__afterRead__(qfs.readFileSync(this.path, options));
 };
 
-
-/**
- * Default parse method does nothing but return the read data.
- * Should be overwritten.
- *
- * @method parse
- */
-exports.parse = function parse(data) {
-	return data;
-};
-
-
 /**
  * Calls parse method, keeps reference to the parsed data
  * and returns the parsed data.
@@ -142,17 +147,19 @@ exports.parse = function parse(data) {
  * @private
  */
 exports.__afterRead__ = function __afterRead__(data) {
-	// save raw data
-	this.raw = data;
-
-	this.parsedData = this.parse(data);
+	this._data = this.parse(data);
 
 	return this;
 };
 
 
 
-
+/**
+ * Shorthand for calling read and then requesting the file data.
+ *
+ * @method readData
+ * @param options {Object}
+ */
 exports.readData = function readData(options) {
 	return this.read.apply(this, arguments).then(function (fobj) {
 		return fobj.data();

@@ -47,7 +47,17 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/FileObject.html">FileObject</a></li>
+                <li><a href="../modules/data.html">data</a></li>
+            
+                <li><a href="../modules/file-object.html">file-object</a></li>
+            
+                <li><a href="../modules/path.html">path</a></li>
+            
+                <li><a href="../modules/read.html">read</a></li>
+            
+                <li><a href="../modules/unlink.html">unlink</a></li>
+            
+                <li><a href="../modules/write.html">write</a></li>
             
             </ul>
         </div>
@@ -88,19 +98,17 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-//     FileObject
+//     file-object
 //     (c) simonfan
-//     FileObject is licensed under the MIT terms.
+//     file-object is licensed under the MIT terms.
 
 /**
- * CJS module.
+ * File abstraction.
  *
- * @module FileObject
+ * @module file-object
  */
 
 &#x27;use strict&#x27;;
-
-var path = require(&#x27;path&#x27;);
 
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;);
@@ -114,7 +122,13 @@ var file = module.exports = subject(function file(fpath, options) {
 		this.data(options.data);
 	}
 
-	this.raw;
+	/**
+	 * Property at which data (parsed) will be stored.
+	 *
+	 * @property _data
+	 * @private
+	 */
+	//	this._data; commented due to jshint.
 
 	this.path = this.parsePath(fpath);
 	this.basename = this.parseBasename(fpath);
@@ -126,44 +140,10 @@ var file = module.exports = subject(function file(fpath, options) {
 /**
  * Define proto properties.
  */
-file.proto({
-
-	data: function data(d) {
-
-		if (arguments.length === 0) {
-			// return the data
-			return this.parsedData;
-		} else {
-			// set raw data
-			this.raw = this.stringify(d);
-
-			// set parsed data
-			this.parsedData = d;
-			return this;
-		}
-	},
-
-	extension: false,
-
-	parsePath: function parsePath(p) {
-		if (this.extension) {
-			var extensionRegExp = new RegExp(&#x27;\\&#x27; + this.extension + &#x27;$&#x27;);
-
-			return extensionRegExp.test(p) ? p : p + this.extension;
-		} else {
-			return p;
-		}
-	},
-
-	parseBasename: function parseBasename(p) {
-		return path.basename(this.parsePath(p), this.extension);
-	},
-});
-
+file.proto(require(&#x27;./path&#x27;));
+file.proto(require(&#x27;./data&#x27;));
 file.proto(require(&#x27;./read&#x27;));
-
 file.proto(require(&#x27;./write&#x27;));
-
 file.proto(require(&#x27;./unlink&#x27;));
 
 

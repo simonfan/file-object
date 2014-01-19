@@ -47,7 +47,17 @@
 
             <ul id="api-modules" class="apis modules">
             
-                <li><a href="../modules/FileObject.html">FileObject</a></li>
+                <li><a href="../modules/data.html">data</a></li>
+            
+                <li><a href="../modules/file-object.html">file-object</a></li>
+            
+                <li><a href="../modules/path.html">path</a></li>
+            
+                <li><a href="../modules/read.html">read</a></li>
+            
+                <li><a href="../modules/unlink.html">unlink</a></li>
+            
+                <li><a href="../modules/write.html">write</a></li>
             
             </ul>
         </div>
@@ -88,6 +98,13 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/**
+ * Functionality related to file writing.
+ *
+ * @module file-object
+ * @submodule write
+ */
+
 &#x27;use strict&#x27;;
 
 // third party
@@ -104,26 +121,29 @@ var qfs = qify(&#x27;fs&#x27;, [&#x27;writeFile&#x27;]);
  */
 exports.writeOptions = {};
 
-/**
- * Default stringify method does nothing but return the data that was parsed.
- * @method stringify
- */
-exports.stringify = function stringify(data) {
-	return data;
-};
 
+/**
+ * Writes the raw data to the file. Asynch
+ *
+ * @method write
+ */
 exports.write = function write(options) {
 		// keep reference to context to return it
 	var fileObj = this,
-		stringified = this.stringify(this.data());
+		stringified = this.raw();
 
 	return qfs.writeFile(this.path, stringified, options)
 			// resolve with this object.
 			.then(function () { return fileObj; });
 };
 
+/**
+ * Writes the raw data to the file. Synch
+ *
+ * @method writeSync
+ */
 exports.writeSync = function writeSync(options) {
-	var stringified = this.stringify(this.data());
+	var stringified = this.raw();
 
 	qfs.writeFileSync(this.path, stringified, options);
 
@@ -131,23 +151,13 @@ exports.writeSync = function writeSync(options) {
 };
 
 
-
-
-
 /**
- *
- * TO IMPLEMENT:
- */
-/**
- *
  * @method writeData
  *
  * @param data {*whatever}
  */
 exports.writeData = function writeData(data, options) {
-
 	return this.data(data).write(options);
-
 };
 
 exports.writeDataSync = function writeDataSync(data, options) {

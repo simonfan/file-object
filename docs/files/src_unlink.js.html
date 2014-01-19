@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/s/iterator.js - file-object</title>
+    <title>src/unlink.js - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -94,53 +94,42 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/s/iterator.js</h1>
+                        <h1 class="file-heading">File: src/unlink.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
+/**
+ * Functionality related to file unlinking.
+ *
+ * @module file-object
+ * @submodule unlink
+ */
+
 &#x27;use strict&#x27;;
 
-var Q = require(&#x27;q&#x27;),
-	_ = require(&#x27;lodash&#x27;),
-	iterator = require(&#x27;itr&#x27;);
+// third party
+var _ = require(&#x27;lodash&#x27;),
+	qify = require(&#x27;q-ify&#x27;);
+
+// qified
+var qfs = qify(&#x27;fs&#x27;, [&#x27;unlink&#x27;]);
 
 /**
- * Return an iterator that will be capable of looping through files.
+ * Unlinks the file. Asynch
  *
- * @method
+ * @method unlink
  */
-exports.iterator = function (first, second) {
+exports.unlink = function unlink() {
+	var fileObj = this;
 
-	var iteratorOptions;
+	return qfs.unlink(this.path)
+				.then(function () { return fileObj; });
+};
 
-	if (arguments.length === 0) {
+exports.unlinkSync = function unlinkSync() {
+	qfs.unlinkSync(this.path);
 
-		// nothing
-
-	} else if (arguments.length === 1) {
-
-		if (_.isString(first)) {
-
-			iteratorOptions = {
-				evaluator: function (fileInstance) {
-					return fileInstance[first]();
-				},
-			};
-
-		} else if (_.isObject(first)) {
-			iteratorOptions = first;
-		}
-
-	} else if (arguments.length === 2) {
-
-		iteratorOptions = second || {};
-		iteratorOptions.evaluator = function (fileInstance) {
-			return fileInstance[first]();
-		};
-
-	}
-
-	return iterator(this.files, iteratorOptions);
+	return this;
 };
 
     </pre>

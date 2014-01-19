@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/s/iterator.js - file-object</title>
+    <title>file-object - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -94,56 +94,107 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/s/iterator.js</h1>
+                        <h1>file-object Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-&#x27;use strict&#x27;;
+    
 
-var Q = require(&#x27;q&#x27;),
-	_ = require(&#x27;lodash&#x27;),
-	iterator = require(&#x27;itr&#x27;);
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_s_index.js.html#l13"><code>src&#x2F;s&#x2F;index.js:13</code></a>
+        </div>
+    
 
-/**
- * Return an iterator that will be capable of looping through files.
- *
- * @method
- */
-exports.iterator = function (first, second) {
+    
+</div>
 
-	var iteratorOptions;
 
-	if (arguments.length === 0) {
 
-		// nothing
+<div class="box intro">
+    <p>File abstraction.</p>
 
-	} else if (arguments.length === 1) {
+</div>
 
-		if (_.isString(first)) {
 
-			iteratorOptions = {
-				evaluator: function (fileInstance) {
-					return fileInstance[first]();
-				},
-			};
 
-		} else if (_.isObject(first)) {
-			iteratorOptions = first;
-		}
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+            <p>This module provides the following classes:</p>
 
-	} else if (arguments.length === 2) {
+            <ul class="module-classes">
+            
+                <li class="module-class">
+                    <a href="../classes/files.html">
+                        files
+                    </a>
+                </li>
+            
+            </ul>
+        
+    </div>
 
-		iteratorOptions = second || {};
-		iteratorOptions.evaluator = function (fileInstance) {
-			return fileInstance[first]();
-		};
+    <div class="yui3-u-1-2">
+        
+            <p>This module is a rollup of the following modules:</p>
 
-	}
+            <ul class="module-submodules">
+            
+                <li class="module-submodule">
+                    <a href="../modules/data.html">
+                        data
+                    </a>
 
-	return iterator(this.files, iteratorOptions);
-};
+                    <div class="module-submodule-description">
+                        Functionality related to reading and setting data
+on the file object.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/path.html">
+                        path
+                    </a>
 
-    </pre>
+                    <div class="module-submodule-description">
+                        Functionality related to path parsing.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/read.html">
+                        read
+                    </a>
+
+                    <div class="module-submodule-description">
+                        Functionality related to file reading.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/unlink.html">
+                        unlink
+                    </a>
+
+                    <div class="module-submodule-description">
+                        Functionality related to file unlinking.
+                    </div>
+                </li>
+            
+                <li class="module-submodule">
+                    <a href="../modules/write.html">
+                        write
+                    </a>
+
+                    <div class="module-submodule-description">
+                        Functionality related to file writing.
+                    </div>
+                </li>
+            
+            </ul>
+        
+    </div>
 </div>
 
                     </div>

@@ -1,3 +1,10 @@
+/**
+ * Functionality related to file writing.
+ *
+ * @module file-object
+ * @submodule write
+ */
+
 'use strict';
 
 // third party
@@ -14,26 +21,29 @@ var qfs = qify('fs', ['writeFile']);
  */
 exports.writeOptions = {};
 
-/**
- * Default stringify method does nothing but return the data that was parsed.
- * @method stringify
- */
-exports.stringify = function stringify(data) {
-	return data;
-};
 
+/**
+ * Writes the raw data to the file. Asynch
+ *
+ * @method write
+ */
 exports.write = function write(options) {
 		// keep reference to context to return it
 	var fileObj = this,
-		stringified = this.stringify(this.data());
+		stringified = this.raw();
 
 	return qfs.writeFile(this.path, stringified, options)
 			// resolve with this object.
 			.then(function () { return fileObj; });
 };
 
+/**
+ * Writes the raw data to the file. Synch
+ *
+ * @method writeSync
+ */
 exports.writeSync = function writeSync(options) {
-	var stringified = this.stringify(this.data());
+	var stringified = this.raw();
 
 	qfs.writeFileSync(this.path, stringified, options);
 
@@ -41,23 +51,13 @@ exports.writeSync = function writeSync(options) {
 };
 
 
-
-
-
 /**
- *
- * TO IMPLEMENT:
- */
-/**
- *
  * @method writeData
  *
  * @param data {*whatever}
  */
 exports.writeData = function writeData(data, options) {
-
 	return this.data(data).write(options);
-
 };
 
 exports.writeDataSync = function writeDataSync(data, options) {

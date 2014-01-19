@@ -18,7 +18,7 @@ var file = require('../index');
  * @param fpaths {Array|Object|-String-}
  *     List of paths to the files to be read in this object.
  *     {Array} -> multiple file paths
- *     -TO_IMPLEMENT- {String} -> minimatch pattern
+ *     {String} -> minimatch pattern
  */
 var files = module.exports = subject(function files(first, second) {
 

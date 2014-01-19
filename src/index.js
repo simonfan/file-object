@@ -1,16 +1,14 @@
-//     FileObject
+//     file-object
 //     (c) simonfan
-//     FileObject is licensed under the MIT terms.
+//     file-object is licensed under the MIT terms.
 
 /**
- * CJS module.
+ * File abstraction.
  *
- * @module FileObject
+ * @module file-object
  */
 
 'use strict';
-
-var path = require('path');
 
 var subject = require('subject'),
 	_ = require('lodash');
@@ -24,7 +22,13 @@ var file = module.exports = subject(function file(fpath, options) {
 		this.data(options.data);
 	}
 
-	this.raw;
+	/**
+	 * Property at which data (parsed) will be stored.
+	 *
+	 * @property _data
+	 * @private
+	 */
+	//	this._data; commented due to jshint.
 
 	this.path = this.parsePath(fpath);
 	this.basename = this.parseBasename(fpath);
@@ -36,44 +40,10 @@ var file = module.exports = subject(function file(fpath, options) {
 /**
  * Define proto properties.
  */
-file.proto({
-
-	data: function data(d) {
-
-		if (arguments.length === 0) {
-			// return the data
-			return this.parsedData;
-		} else {
-			// set raw data
-			this.raw = this.stringify(d);
-
-			// set parsed data
-			this.parsedData = d;
-			return this;
-		}
-	},
-
-	extension: false,
-
-	parsePath: function parsePath(p) {
-		if (this.extension) {
-			var extensionRegExp = new RegExp('\\' + this.extension + '$');
-
-			return extensionRegExp.test(p) ? p : p + this.extension;
-		} else {
-			return p;
-		}
-	},
-
-	parseBasename: function parseBasename(p) {
-		return path.basename(this.parsePath(p), this.extension);
-	},
-});
-
+file.proto(require('./path'));
+file.proto(require('./data'));
 file.proto(require('./read'));
-
 file.proto(require('./write'));
-
 file.proto(require('./unlink'));
 
 

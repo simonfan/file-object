@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/s/iterator.js - file-object</title>
+    <title>write - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -94,56 +94,38 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/s/iterator.js</h1>
+                        <h1>write Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-&#x27;use strict&#x27;;
+    
 
-var Q = require(&#x27;q&#x27;),
-	_ = require(&#x27;lodash&#x27;),
-	iterator = require(&#x27;itr&#x27;);
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_write.js.html#l1"><code>src&#x2F;write.js:1</code></a>
+        </div>
+    
 
-/**
- * Return an iterator that will be capable of looping through files.
- *
- * @method
- */
-exports.iterator = function (first, second) {
+    
+</div>
 
-	var iteratorOptions;
 
-	if (arguments.length === 0) {
 
-		// nothing
+<div class="box intro">
+    <p>Functionality related to file writing.</p>
 
-	} else if (arguments.length === 1) {
+</div>
 
-		if (_.isString(first)) {
 
-			iteratorOptions = {
-				evaluator: function (fileInstance) {
-					return fileInstance[first]();
-				},
-			};
 
-		} else if (_.isObject(first)) {
-			iteratorOptions = first;
-		}
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+    </div>
 
-	} else if (arguments.length === 2) {
-
-		iteratorOptions = second || {};
-		iteratorOptions.evaluator = function (fileInstance) {
-			return fileInstance[first]();
-		};
-
-	}
-
-	return iterator(this.files, iteratorOptions);
-};
-
-    </pre>
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>
