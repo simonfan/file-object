@@ -103,7 +103,7 @@ var qfs = qify(&#x27;fs&#x27;, [&#x27;readFile&#x27;]);
  * @property readOptions {Object}
  */
 exports.readOptions = {
-	encoding: &#x27;utf-8&#x27;,
+	encoding: &#x27;utf8&#x27;,
 	flag: &#x27;r&#x27;
 };
 
@@ -142,6 +142,9 @@ exports.parse = function parse(data) {
  * @private
  */
 exports.__afterRead__ = function __afterRead__(data) {
+	// save raw data
+	this.raw = data;
+
 	this.parsedData = this.parse(data);
 
 	return this;

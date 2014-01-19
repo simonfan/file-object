@@ -96,7 +96,7 @@ var path = require(&#x27;path&#x27;),
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;),
 	minimatch = require(&#x27;minimatch&#x27;),
-	mapo = require(&#x27;mapo&#x27;);
+	walk = require(&#x27;walkdir&#x27;);
 
 var file = require(&#x27;../index&#x27;);
 
@@ -133,9 +133,7 @@ var files = module.exports = subject(function files(first, second) {
 	if (_.isArray(fpaths)) {
 
 		// fpaths is an array: values are paths
-		_.each(fpaths, function (fpath) {
-			this.file(fpath);
-		}.bind(this));
+		_.each(fpaths, this.file.bind(this));
 
 	} else if (_.isObject(fpaths)) {
 
@@ -145,8 +143,17 @@ var files = module.exports = subject(function files(first, second) {
 		}.bind(this));
 
 	} else if (_.isString(fpaths)) {
-		// if fpaths is a string use minimatch -IMPLEMENT-
+		// if fpaths is a string use minimatch
+			// get paths available.
+		var availablePaths = walk.sync(this.base).map(function (p) {
+				return path.relative(this.base, p);
+			}.bind(this));
 
+		// get paths that match the pattern
+		fpaths = minimatch.match(availablePaths, fpaths, { matchBase: true });
+
+		//
+		_.each(fpaths, this.file.bind(this));
 	}
 
 });
@@ -188,8 +195,6 @@ files.proto({
 
 		// get the full filepath
 		var fullfpath = path.join(this.base, fpath);
-
-		console.log(fpath);
 
 		// check if the file object exists
 		var file = this.files[fpath];

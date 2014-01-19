@@ -18,10 +18,10 @@ var subject = require('subject'),
 /**
  * The initializer.
  */
-var file = module.exports = subject(function file(fpath, data) {
+var file = module.exports = subject(function file(fpath, options) {
 
-	if (arguments.length === 2) {
-		this.data(data);
+	if (arguments.length === 2 && options.data) {
+		this.data(options.data);
 	}
 
 	this.raw;

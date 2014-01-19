@@ -108,11 +108,13 @@ var subject = require(&#x27;subject&#x27;),
 /**
  * The initializer.
  */
-var file = module.exports = subject(function file(fpath, data) {
+var file = module.exports = subject(function file(fpath, options) {
 
-	if (arguments.length === 2) {
-		this.data(data);
+	if (arguments.length === 2 &amp;&amp; options.data) {
+		this.data(options.data);
 	}
+
+	this.raw;
 
 	this.path = this.parsePath(fpath);
 	this.basename = this.parseBasename(fpath);
@@ -132,7 +134,10 @@ file.proto({
 			// return the data
 			return this.parsedData;
 		} else {
-			// set data
+			// set raw data
+			this.raw = this.stringify(d);
+
+			// set parsed data
 			this.parsedData = d;
 			return this;
 		}
