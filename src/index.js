@@ -13,6 +13,8 @@
 var subject = require('subject'),
 	_ = require('lodash');
 
+var h = require('./helpers');
+
 /**
  * The initializer.
  */
@@ -30,17 +32,20 @@ var file = module.exports = subject(function file(fpath, options) {
 	 */
 	//	this._data; commented due to jshint.
 
-	this.path = this.parsePath(fpath);
-	this.basename = this.parseBasename(fpath);
+	this.path = h.addExtension(fpath, this.extension);
 
 	// bind methods.
 	this.__afterRead__ = this.__afterRead__.bind(this);
 });
 
+
 /**
  * Define proto properties.
  */
-file.proto(require('./path'));
+file.proto({
+	extension: void(0),
+});
+
 file.proto(require('./data'));
 file.proto(require('./read'));
 file.proto(require('./write'));

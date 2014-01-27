@@ -24,7 +24,5 @@ describe('file basics', function () {
 
 		somefile.extension.should.eql('.someextension');
 		somefile.path.should.eql('lalala.someextension');
-		somefile.basename.should.eql('lalala');
-
 	});
 });

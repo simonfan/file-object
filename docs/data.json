@@ -43,19 +43,19 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/index.js": {
-            "name": "src/index.js",
+        "src/helpers.js": {
+            "name": "src/helpers.js",
             "modules": {
-                "file-object": 1
+                "helpers": 1
             },
             "classes": {},
             "fors": {},
             "namespaces": {}
         },
-        "src/path.js": {
-            "name": "src/path.js",
+        "src/index.js": {
+            "name": "src/index.js",
             "modules": {
-                "path": 1
+                "file-object": 1
             },
             "classes": {},
             "fors": {},
@@ -94,7 +94,7 @@
             "name": "file-object",
             "submodules": {
                 "data": 1,
-                "path": 1,
+                "helpers": 1,
                 "read": 1,
                 "unlink": 1,
                 "write": 1
@@ -106,7 +106,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "src/s/index.js",
-            "line": 13,
+            "line": 14,
             "description": "File abstraction."
         },
         "data": {
@@ -122,8 +122,8 @@
             "line": 1,
             "description": "Functionality related to reading and setting data\non the file object."
         },
-        "path": {
-            "name": "path",
+        "helpers": {
+            "name": "helpers",
             "submodules": {},
             "classes": {},
             "fors": {},
@@ -131,9 +131,9 @@
             "namespaces": {},
             "module": "file-object",
             "namespace": "",
-            "file": "src/path.js",
+            "file": "src/helpers.js",
             "line": 1,
-            "description": "Functionality related to path parsing."
+            "description": "Functionality common to singular and plural."
         },
         "read": {
             "name": "read",
@@ -186,7 +186,7 @@
             "extension_for": [],
             "module": "file-object",
             "file": "src/s/index.js",
-            "line": 13,
+            "line": 14,
             "description": "Constructor for multiple file reader.",
             "params": [
                 {
@@ -206,13 +206,13 @@
     "classitems": [
         {
             "file": "src/s/index.js",
-            "line": 71,
+            "line": 73,
             "description": "Define proto properties.",
             "class": "files"
         },
         {
             "file": "src/s/index.js",
-            "line": 90,
+            "line": 92,
             "description": "The singular file object builder.\nThis shall be extended in order to use the plural\nwith specific file definitions.",
             "itemtype": "method",
             "name": "singular",
@@ -220,7 +220,7 @@
         },
         {
             "file": "src/s/index.js",
-            "line": 99,
+            "line": 101,
             "description": "Either gets or creates the file object.",
             "itemtype": "method",
             "name": "file",
@@ -327,15 +327,76 @@
             "submodule": "data"
         },
         {
+            "file": "src/helpers.js",
+            "line": 10,
+            "description": "Creates a regular expression that matches the given extension.",
+            "itemtype": "method",
+            "name": "extensionRegExp",
+            "params": [
+                {
+                    "name": "ext",
+                    "description": "\n    .someextension",
+                    "type": "String"
+                }
+            ],
+            "class": "",
+            "module": "file-object",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src/helpers.js",
+            "line": 21,
+            "description": "Removes the extension.",
+            "itemtype": "method",
+            "name": "removeExtension",
+            "params": [
+                {
+                    "name": "p",
+                    "description": "\n    The original path string.",
+                    "type": "String"
+                },
+                {
+                    "name": "ext",
+                    "description": "\n    .someextension",
+                    "type": "String"
+                }
+            ],
+            "class": "",
+            "module": "file-object",
+            "submodule": "helpers"
+        },
+        {
+            "file": "src/helpers.js",
+            "line": 38,
+            "description": "Adds the extension, if not already present.",
+            "itemtype": "method",
+            "name": "removeExtension",
+            "params": [
+                {
+                    "name": "p",
+                    "description": "\n    The original path string.",
+                    "type": "String"
+                },
+                {
+                    "name": "ext",
+                    "description": "\n    .someextension",
+                    "type": "String"
+                }
+            ],
+            "class": "",
+            "module": "file-object",
+            "submodule": "helpers"
+        },
+        {
             "file": "src/index.js",
-            "line": 16,
+            "line": 18,
             "description": "The initializer.",
             "class": "",
             "module": "file-object"
         },
         {
             "file": "src/index.js",
-            "line": 25,
+            "line": 27,
             "description": "Property at which data (parsed) will be stored.",
             "itemtype": "property",
             "name": "_data",
@@ -346,55 +407,24 @@
         },
         {
             "file": "src/index.js",
-            "line": 40,
+            "line": 42,
             "description": "Define proto properties.",
             "class": "",
             "module": "file-object"
         },
         {
             "file": "src/index.js",
-            "line": 50,
+            "line": 55,
             "description": "Define static properties.",
             "class": "",
             "module": "file-object"
         },
         {
             "file": "src/index.js",
-            "line": 57,
+            "line": 62,
             "description": "Overwriting the basic extend method in order to replace the static\n `s` variable.",
             "class": "",
             "module": "file-object"
-        },
-        {
-            "file": "src/path.js",
-            "line": 12,
-            "description": "The file extension.\ne.g. '.js', '.json'\nUsed to find the file without needing the extension.",
-            "itemtype": "property",
-            "name": "extension",
-            "type": "String",
-            "class": "",
-            "module": "file-object",
-            "submodule": "path"
-        },
-        {
-            "file": "src/path.js",
-            "line": 21,
-            "description": "Takes a path and, if required, adds the extension to it.",
-            "itemtype": "method",
-            "name": "parsePath",
-            "class": "",
-            "module": "file-object",
-            "submodule": "path"
-        },
-        {
-            "file": "src/path.js",
-            "line": 36,
-            "description": "Takes a path and retrieves the basename of the file.",
-            "itemtype": "method",
-            "name": "parseBasename",
-            "class": "",
-            "module": "file-object",
-            "submodule": "path"
         },
         {
             "file": "src/read.js",
@@ -497,7 +527,7 @@
     "warnings": [
         {
             "message": "Missing item type\nDefine proto properties.",
-            "line": " src/s/index.js:71"
+            "line": " src/s/index.js:73"
         },
         {
             "message": "Missing item type\nRead multiple files at once",
@@ -513,19 +543,19 @@
         },
         {
             "message": "Missing item type\nThe initializer.",
-            "line": " src/index.js:16"
+            "line": " src/index.js:18"
         },
         {
             "message": "Missing item type\nDefine proto properties.",
-            "line": " src/index.js:40"
+            "line": " src/index.js:42"
         },
         {
             "message": "Missing item type\nDefine static properties.",
-            "line": " src/index.js:50"
+            "line": " src/index.js:55"
         },
         {
             "message": "Missing item type\nOverwriting the basic extend method in order to replace the static\n `s` variable.",
-            "line": " src/index.js:57"
+            "line": " src/index.js:62"
         }
     ]
 }

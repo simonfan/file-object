@@ -8,7 +8,8 @@ var subject = require('subject'),
 	minimatch = require('minimatch'),
 	walk = require('walkdir');
 
-var file = require('../index');
+var file = require('../index'),
+	h = require('../helpers');
 
 /**
  * Constructor for multiple file reader.
@@ -22,6 +23,7 @@ var file = require('../index');
  */
 var files = module.exports = subject(function files(first, second) {
 
+	// [1] parse arguments
 	var base, fpaths;
 
 	if (arguments.length === 1) {
@@ -103,15 +105,18 @@ files.proto({
 	 */
 	file: function (fpath) {
 
-		// get the full filepath
-		var fullfpath = path.join(this.base, fpath);
 
-		// check if the file object exists
-		var file = this.files[fpath];
+		// get the file identifier
+		var fid = h.removeExtension(fpath, this.singular.prototype.extension),
+			// check if the file object exists
+			file = this.files[fid];
 
 		// if no file exists, build one.
 		if (!file) {
-			file = this.files[fpath] = this.singular(fullfpath);
+			// get the full filepath
+			var fullfpath = path.join(this.base, h.addExtension(fpath));
+			// ATTENTION: use fpath, not fullfpath to reference the object!
+			file = this.files[fid] = this.singular(fullfpath);
 		}
 
 		// finally return the file object.

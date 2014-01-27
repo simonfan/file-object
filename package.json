@@ -1,7 +1,7 @@
 {
   "name": "file-object",
   "main": "./src/index",
-  "version": "0.5.6",
+  "version": "0.5.6a",
   "description": "Object wrapper for file reading.",
   "repository": {
     "type": "git",

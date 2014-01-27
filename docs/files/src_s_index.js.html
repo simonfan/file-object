@@ -51,7 +51,7 @@
             
                 <li><a href="../modules/file-object.html">file-object</a></li>
             
-                <li><a href="../modules/path.html">path</a></li>
+                <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/read.html">read</a></li>
             
@@ -108,7 +108,8 @@ var subject = require(&#x27;subject&#x27;),
 	minimatch = require(&#x27;minimatch&#x27;),
 	walk = require(&#x27;walkdir&#x27;);
 
-var file = require(&#x27;../index&#x27;);
+var file = require(&#x27;../index&#x27;),
+	h = require(&#x27;../helpers&#x27;);
 
 /**
  * Constructor for multiple file reader.
@@ -122,6 +123,7 @@ var file = require(&#x27;../index&#x27;);
  */
 var files = module.exports = subject(function files(first, second) {
 
+	// [1] parse arguments
 	var base, fpaths;
 
 	if (arguments.length === 1) {
@@ -203,15 +205,18 @@ files.proto({
 	 */
 	file: function (fpath) {
 
-		// get the full filepath
-		var fullfpath = path.join(this.base, fpath);
 
-		// check if the file object exists
-		var file = this.files[fpath];
+		// get the file identifier
+		var fid = h.removeExtension(fpath, this.singular.prototype.extension),
+			// check if the file object exists
+			file = this.files[fid];
 
 		// if no file exists, build one.
 		if (!file) {
-			file = this.files[fpath] = this.singular(fullfpath);
+			// get the full filepath
+			var fullfpath = path.join(this.base, h.addExtension(fpath));
+			// ATTENTION: use fpath, not fullfpath to reference the object!
+			file = this.files[fid] = this.singular(fullfpath);
 		}
 
 		// finally return the file object.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>path - file-object</title>
+    <title>src/helpers.js - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,7 +51,7 @@
             
                 <li><a href="../modules/file-object.html">file-object</a></li>
             
-                <li><a href="../modules/path.html">path</a></li>
+                <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/read.html">read</a></li>
             
@@ -94,38 +94,64 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>path Module</h1>
-<div class="box clearfix meta">
-    
+                        <h1 class="file-heading">File: src/helpers.js</h1>
 
-    
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * Functionality common to singular and plural.
+ *
+ * @module file-object
+ * @submodule helpers
+ */
 
-    
-        <div class="foundat">
-            Defined in: <a href="../files/src_path.js.html#l1"><code>src&#x2F;path.js:1</code></a>
-        </div>
-    
+&#x27;use strict&#x27;;
 
-    
-</div>
+/**
+ * Creates a regular expression that matches the given extension.
+ * 
+ * @method extensionRegExp
+ * @param ext {String}
+ *     .someextension
+ */
+exports.extensionRegExp = function extensionRegExp(ext) {
+	return new RegExp(&#x27;\\&#x27; + ext + &#x27;$&#x27;);
+};
 
+/**
+ * Removes the extension.
+ * 
+ * @method removeExtension
+ * @param p {String} 
+ *     The original path string.
+ * @param ext {String}
+ *     .someextension
+ */
+exports.removeExtension = function removeExtension(p, ext) {
+	if (!ext) { return p; }
 
+	var re = exports.extensionRegExp(ext);
 
-<div class="box intro">
-    <p>Functionality related to path parsing.</p>
+	return p.replace(re, &#x27;&#x27;);
+};
 
-</div>
+/**
+ * Adds the extension, if not already present.
+ * 
+ * @method removeExtension
+ * @param p {String} 
+ *     The original path string.
+ * @param ext {String}
+ *     .someextension
+ */
+exports.addExtension = function addExtension(p, ext) {
+	if (!ext) { return p; }
+	
+	var re = exports.extensionRegExp(ext);
 
-
-
-<div class="yui3-g">
-    <div class="yui3-u-1-2">
-        
-    </div>
-
-    <div class="yui3-u-1-2">
-        
-    </div>
+	return re.test(p) ? p : p + ext;
+};
+    </pre>
 </div>
 
                     </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/path.js - file-object</title>
+    <title>helpers - file-object</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -51,7 +51,7 @@
             
                 <li><a href="../modules/file-object.html">file-object</a></li>
             
-                <li><a href="../modules/path.html">path</a></li>
+                <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/read.html">read</a></li>
             
@@ -94,55 +94,38 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/path.js</h1>
+                        <h1>helpers Module</h1>
+<div class="box clearfix meta">
+    
 
-<div class="file">
-    <pre class="code prettyprint linenums">
-/**
- * Functionality related to path parsing.
- *
- * @module file-object
- * @submodule path
- */
+    
 
-&#x27;use strict&#x27;;
+    
+        <div class="foundat">
+            Defined in: <a href="../files/src_helpers.js.html#l1"><code>src&#x2F;helpers.js:1</code></a>
+        </div>
+    
 
-var path = require(&#x27;path&#x27;);
+    
+</div>
 
-/**
- * The file extension.
- * e.g. &#x27;.js&#x27;, &#x27;.json&#x27;
- * Used to find the file without needing the extension.
- *
- * @property extension {String}
- */
-exports.extension = void(0);
 
-/**
- * Takes a path and, if required, adds the extension to it.
- *
- * @method parsePath
- */
-exports.parsePath = function parsePath(p) {
-	if (this.extension) {
-		var extensionRegExp = new RegExp(&#x27;\\&#x27; + this.extension + &#x27;$&#x27;);
 
-		return extensionRegExp.test(p) ? p : p + this.extension;
-	} else {
-		return p;
-	}
-};
+<div class="box intro">
+    <p>Functionality common to singular and plural.</p>
 
-/**
- * Takes a path and retrieves the basename of the file.
- *
- * @method parseBasename
- */
-exports.parseBasename = function parseBasename(p) {
-	return path.basename(this.parsePath(p), this.extension);
-};
+</div>
 
-    </pre>
+
+
+<div class="yui3-g">
+    <div class="yui3-u-1-2">
+        
+    </div>
+
+    <div class="yui3-u-1-2">
+        
+    </div>
 </div>
 
                     </div>

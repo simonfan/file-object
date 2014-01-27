@@ -6,7 +6,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "modules": [
         "data",
         "file-object",
-        "path",
+        "helpers",
         "read",
         "unlink",
         "write"
@@ -23,9 +23,9 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "File abstraction."
         },
         {
-            "displayName": "path",
-            "name": "path",
-            "description": "Functionality related to path parsing."
+            "displayName": "helpers",
+            "name": "helpers",
+            "description": "Functionality common to singular and plural."
         },
         {
             "displayName": "read",

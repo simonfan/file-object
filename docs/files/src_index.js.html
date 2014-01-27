@@ -51,7 +51,7 @@
             
                 <li><a href="../modules/file-object.html">file-object</a></li>
             
-                <li><a href="../modules/path.html">path</a></li>
+                <li><a href="../modules/helpers.html">helpers</a></li>
             
                 <li><a href="../modules/read.html">read</a></li>
             
@@ -113,6 +113,8 @@
 var subject = require(&#x27;subject&#x27;),
 	_ = require(&#x27;lodash&#x27;);
 
+var h = require(&#x27;./helpers&#x27;);
+
 /**
  * The initializer.
  */
@@ -130,17 +132,20 @@ var file = module.exports = subject(function file(fpath, options) {
 	 */
 	//	this._data; commented due to jshint.
 
-	this.path = this.parsePath(fpath);
-	this.basename = this.parseBasename(fpath);
+	this.path = h.addExtension(fpath, this.extension);
 
 	// bind methods.
 	this.__afterRead__ = this.__afterRead__.bind(this);
 });
 
+
 /**
  * Define proto properties.
  */
-file.proto(require(&#x27;./path&#x27;));
+file.proto({
+	extension: void(0),
+});
+
 file.proto(require(&#x27;./data&#x27;));
 file.proto(require(&#x27;./read&#x27;));
 file.proto(require(&#x27;./write&#x27;));
